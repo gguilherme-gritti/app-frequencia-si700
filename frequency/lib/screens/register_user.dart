@@ -284,8 +284,10 @@ class RegisterUserState extends State<RegisterUser> {
         onPressed: () {
           if (formKey.currentState!.validate()) {
             formKey.currentState!.save();
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => const HomeFrequency()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => HomeFrequency(
+                      name: registerUserData.name,
+                    )));
           }
         },
         style: ElevatedButton.styleFrom(

@@ -4,7 +4,9 @@ import 'package:frequency/widgets/management_card.dart';
 import 'package:frequency/widgets/presence_today_card.dart';
 
 class HomeFrequency extends StatelessWidget {
-  const HomeFrequency();
+  final String name;
+
+  const HomeFrequency({required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +35,9 @@ class HomeFrequency extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 25),
-                      const Text(
-                        'Bem vindo, Guilherme!',
-                        style: TextStyle(
+                      Text(
+                        'Bem vindo, $name!',
+                        style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Poppins'),

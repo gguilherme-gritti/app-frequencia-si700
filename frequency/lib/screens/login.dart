@@ -156,8 +156,8 @@ class LoginState extends State<Login> {
               ),
             ));
           } else {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => const HomeFrequency()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const HomeFrequency(name: 'Guilherme')));
           }
         },
         style: ElevatedButton.styleFrom(
