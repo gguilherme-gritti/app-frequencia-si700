@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FrequencyButtons extends StatelessWidget {
+  final bool isPressed = false;
+
   const FrequencyButtons();
 
   @override
@@ -9,7 +11,19 @@ class FrequencyButtons extends StatelessWidget {
       children: [
         Expanded(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text(
+                  'Falta computada com sucesso',
+                  style: TextStyle(color: Colors.black87),
+                ),
+                backgroundColor: const Color(0xffeeeeff),
+                action: SnackBarAction(
+                  label: 'Fechar',
+                  onPressed: () {},
+                ),
+              ));
+            },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(20),
               backgroundColor: const Color(0xFFffffff),
@@ -25,7 +39,19 @@ class FrequencyButtons extends StatelessWidget {
         const SizedBox(width: 15),
         Expanded(
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text(
+                  'Presença computada com sucesso',
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.green,
+                action: SnackBarAction(
+                  label: 'Fechar',
+                  onPressed: () {},
+                ),
+              ));
+            },
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.all(20),
               backgroundColor: const Color(0xFF4157ff),
