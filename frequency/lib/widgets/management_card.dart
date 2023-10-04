@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frequency/screens/disciplines.dart';
 import 'package:frequency/widgets/card_icon_button.dart';
 import 'package:frequency/widgets/deatch_icon_card_button.dart';
 
@@ -18,43 +19,56 @@ class ManagementCard extends StatelessWidget {
           ),
           color: Colors.white,
         ),
-        child: const Column(
+        child: Column(
           children: [
-            Text(
+            const Text(
               'Gerenciamento',
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
               children: [
-                CardIconButton(icon: Icons.calendar_month, text: 'Frequência'),
-                SizedBox(
+                CardIconButton(
+                    icon: Icons.calendar_month,
+                    text: 'Frequência',
+                    onPressed: () {}),
+                const SizedBox(
                   width: 15,
                 ),
-                CardIconButton(icon: Icons.add_card, text: 'Disciplinas'),
+                CardIconButton(
+                    icon: Icons.add_card,
+                    text: 'Disciplinas',
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const Disciplines()));
+                    }),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Row(
               children: [
-                CardIconButton(icon: Icons.school, text: 'Cursos'),
-                SizedBox(
+                CardIconButton(
+                    icon: Icons.school, text: 'Cursos', onPressed: () {}),
+                const SizedBox(
                   width: 15,
                 ),
-                CardIconButton(icon: Icons.person_2_outlined, text: 'Perfil'),
+                CardIconButton(
+                    icon: Icons.person_2_outlined,
+                    text: 'Perfil',
+                    onPressed: () {}),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
-            Row(
+            const Row(
               children: [
                 DetachIconCardButton(icon: Icons.calculate, text: 'Percentual'),
                 SizedBox(

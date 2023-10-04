@@ -3,19 +3,23 @@ import 'package:flutter/material.dart';
 class CardIconButton extends StatelessWidget {
   final IconData icon;
   final String text;
+  final Function() onPressed;
 
-  const CardIconButton({required this.icon, required this.text});
+  const CardIconButton(
+      {required this.icon, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            color: Colors.white,
-            border: Border.all(color: Colors.black12, width: 1)),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(double.infinity, 80),
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        onPressed: onPressed,
         child: Row(
           children: [
             Container(

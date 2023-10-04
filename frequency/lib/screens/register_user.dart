@@ -42,15 +42,14 @@ class RegisterUserState extends State<RegisterUser> {
                 style: TextStyle(
                     fontSize: 28,
                     color: Colors.white,
-                    fontWeight: FontWeight.bold),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins'),
               ),
               const SizedBox(height: 5),
               const Text(
                 'Por favor, preencha os campos abaixo',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white60,
-                ),
+                    fontSize: 16, color: Colors.white60, fontFamily: 'Poppins'),
               ),
               const SizedBox(height: 30),
               Expanded(
