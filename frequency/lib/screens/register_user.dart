@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frequency/screens/home_frequency.dart';
+import 'package:frequency/screens/login.dart';
 
 class RegisterUser extends StatelessWidget {
   const RegisterUser();
@@ -139,7 +141,10 @@ class RegisterUser extends StatelessWidget {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (_) => Login()));
+                            },
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 60),
                               backgroundColor: const Color(0xFFffffff),
@@ -155,7 +160,10 @@ class RegisterUser extends StatelessWidget {
                         const SizedBox(width: 15),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => const HomeFrequency()));
+                            },
                             style: ElevatedButton.styleFrom(
                               minimumSize: const Size(double.infinity, 60),
                               backgroundColor: const Color(0xFF4157ff),

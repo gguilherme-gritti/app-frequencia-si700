@@ -1,8 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:frequency/model/login_data.dart';
+import 'package:frequency/screens/home_frequency.dart';
+import 'package:frequency/screens/register_user.dart';
 import 'package:frequency/widgets/text_divider.dart';
 
-class Login extends StatelessWidget {
-  const Login();
+class Login extends StatefulWidget {
+  const Login({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return LoginState();
+  }
+}
+
+class LoginState extends State<Login> {
+  final LoginData loginData = LoginData(ra: "", password: "");
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -52,88 +66,128 @@ class Login extends StatelessWidget {
               ),
               Container(
                 padding: const EdgeInsets.only(left: 30, right: 30),
-                child: Column(
-                  children: [
-                    const TextField(
-                      decoration: InputDecoration(
-                          labelText: 'RA',
-                          icon: Icon(Icons.email),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(color: Colors.blue, width: 2),
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      raField(),
+                      const SizedBox(height: 20),
+                      passwordField(),
+                      const SizedBox(height: 40),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            formKey.currentState!.save();
+                            if (!loginData.validForm(loginData)) {
+                              final snackBar = SnackBar(
+                                content:
+                                    const Text('Formulário de Login Inválido!'),
+                                action: SnackBarAction(
+                                  label: 'Fechar',
+                                  onPressed: () {},
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => const HomeFrequency()));
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 60),
+                            backgroundColor: const Color(0xFF4157ff),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
                           ),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
-                              borderSide: BorderSide(color: Colors.black12)),
-                          filled: true,
-                          fillColor: Colors.white),
-                    ),
-                    const SizedBox(height: 20),
-                    const TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Senha',
-                        icon: Icon(Icons.lock),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.blue, width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            borderSide: BorderSide(color: Colors.black12)),
-                        filled: true,
-                        fillColor: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 60),
-                          backgroundColor: const Color(0xFF4157ff),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24.0),
+                          child: const Text(
+                            'Entrar',
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: 'Poppins'),
                           ),
                         ),
-                        child: const Text(
-                          'Entrar',
-                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
-                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    const TextDivider(text: 'ou'),
-                    const SizedBox(height: 20),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 60),
-                          backgroundColor: const Color(0xFFffffff),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24.0),
+                      const SizedBox(height: 20),
+                      const TextDivider(text: 'ou'),
+                      const SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => const RegisterUser()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 60),
+                            backgroundColor: const Color(0xFFffffff),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24.0),
+                            ),
+                          ),
+                          child: const Text(
+                            'Registre-se',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontFamily: 'Poppins'),
                           ),
                         ),
-                        child: const Text(
-                          'Registre-se',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontFamily: 'Poppins'),
-                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget raField() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      validator: (String? value) {},
+      onSaved: (String? value) {
+        loginData.ra = value ?? "";
+      },
+      decoration: const InputDecoration(
+          labelText: 'RA',
+          icon: Icon(Icons.email),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(color: Colors.black12)),
+          filled: true,
+          fillColor: Colors.white),
+    );
+  }
+
+  Widget passwordField() {
+    return TextFormField(
+      obscureText: true,
+      keyboardType: TextInputType.text,
+      validator: (String? value) {},
+      onSaved: (String? value) {
+        loginData.password = value ?? "";
+      },
+      decoration: const InputDecoration(
+        labelText: 'Senha',
+        icon: Icon(Icons.lock),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blue, width: 2),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+        ),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            borderSide: BorderSide(color: Colors.black12)),
+        filled: true,
+        fillColor: Colors.white,
       ),
     );
   }
