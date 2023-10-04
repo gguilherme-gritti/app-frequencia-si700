@@ -25,7 +25,7 @@ class Login extends StatelessWidget {
                 ),
               ),
               Container(
-                  padding: const EdgeInsets.only(left: 40, right: 40),
+                  padding: const EdgeInsets.only(left: 30, right: 30),
                   child: const Column(
                     children: [
                       Text(
@@ -46,7 +46,7 @@ class Login extends StatelessWidget {
                     ],
                   )),
               Container(
-                padding: const EdgeInsets.only(left: 40, right: 40),
+                padding: const EdgeInsets.only(left: 30, right: 30),
                 child: Column(
                   children: [
                     const TextField(

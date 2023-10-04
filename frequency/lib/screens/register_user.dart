@@ -40,7 +40,7 @@ class RegisterUser extends StatelessWidget {
             Expanded(
                 child: Container(
               height: double.infinity,
-              padding: const EdgeInsets.only(left: 40, right: 40, top: 40),
+              padding: const EdgeInsets.only(left: 30, right: 30, top: 40),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
