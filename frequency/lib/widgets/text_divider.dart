@@ -13,22 +13,20 @@ class TextDivider extends StatelessWidget {
       children: <Widget>[
         Expanded(
           child: Divider(
-            color: Colors.grey[300], // Cor do Divider
-            thickness: 1, // Espessura do Divider
+            color: Colors.grey[300],
+            thickness: 1,
           ),
         ),
-        const SizedBox(width: 15), // Espaçamento entre o Divider e o texto
+        const SizedBox(width: 15),
         Text(
           text,
-          style: const TextStyle(
-            fontSize: 16, // Tamanho da fonte do texto
-          ),
+          style: const TextStyle(fontSize: 16, fontFamily: 'Poppins'),
         ),
-        const SizedBox(width: 15), // Espaçamento entre o texto e o Divider
+        const SizedBox(width: 15),
         Expanded(
           child: Divider(
-            color: Colors.grey[300], // Cor do Divider
-            thickness: 1, // Espessura do Divider
+            color: Colors.grey[300],
+            thickness: 1,
           ),
         ),
       ],

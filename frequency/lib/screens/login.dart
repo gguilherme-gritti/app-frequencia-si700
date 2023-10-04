@@ -25,26 +25,31 @@ class Login extends StatelessWidget {
                 ),
               ),
               Container(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: const Column(
-                    children: [
-                      Text(
-                        'FrequencYou',
-                        style: TextStyle(
-                            fontSize: 28.0,
-                            color: Color(0xFF4157ff),
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Controle de Frequência rapido e prático!',
-                        style: TextStyle(fontSize: 16.0, color: Colors.black45),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 30),
-                    ],
-                  )),
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: const Column(
+                  children: [
+                    Text(
+                      'FrequencYou',
+                      style: TextStyle(
+                          fontSize: 28.0,
+                          color: Color(0xFF4157ff),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins'),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Controle de Frequência rapido e prático!',
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          color: Colors.black45,
+                          fontFamily: 'Poppins'),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: 30),
+                  ],
+                ),
+              ),
               Container(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 child: Column(
@@ -56,8 +61,7 @@ class Login extends StatelessWidget {
                           focusedBorder: OutlineInputBorder(
                             borderSide:
                                 BorderSide(color: Colors.blue, width: 2),
-                            borderRadius: BorderRadius.all(Radius.circular(
-                                20)), // Cor da borda quando o TextField está focado
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
                           ),
                           enabledBorder: OutlineInputBorder(
                               borderRadius:
@@ -74,8 +78,7 @@ class Login extends StatelessWidget {
                         icon: Icon(Icons.lock),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.blue, width: 2),
-                          borderRadius: BorderRadius.all(Radius.circular(
-                              20)), // Cor da borda quando o TextField está focado
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -93,13 +96,12 @@ class Login extends StatelessWidget {
                           minimumSize: const Size(double.infinity, 60),
                           backgroundColor: const Color(0xFF4157ff),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                24.0), // Ajuste o valor do raio conforme necessário
+                            borderRadius: BorderRadius.circular(24.0),
                           ),
                         ),
                         child: const Text(
                           'Entrar',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
                         ),
                       ),
                     ),
@@ -119,7 +121,10 @@ class Login extends StatelessWidget {
                         ),
                         child: const Text(
                           'Registre-se',
-                          style: TextStyle(color: Colors.black, fontSize: 16),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontFamily: 'Poppins'),
                         ),
                       ),
                     ),
