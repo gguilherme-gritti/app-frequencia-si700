@@ -74,67 +74,11 @@ class LoginState extends State<Login> {
                       const SizedBox(height: 20),
                       passwordField(),
                       const SizedBox(height: 40),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            formKey.currentState!.save();
-                            if (!loginData.validForm(loginData)) {
-                              final snackBar = SnackBar(
-                                content:
-                                    const Text('Formulário de Login Inválido!'),
-                                action: SnackBarAction(
-                                  label: 'Fechar',
-                                  onPressed: () {},
-                                ),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            } else {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => const HomeFrequency()));
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 60),
-                            backgroundColor: const Color(0xFF4157ff),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24.0),
-                            ),
-                          ),
-                          child: const Text(
-                            'Entrar',
-                            style:
-                                TextStyle(fontSize: 16, fontFamily: 'Poppins'),
-                          ),
-                        ),
-                      ),
+                      enterButton(),
                       const SizedBox(height: 20),
                       const TextDivider(text: 'ou'),
                       const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) => const RegisterUser()));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 60),
-                            backgroundColor: const Color(0xFFffffff),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(24.0),
-                            ),
-                          ),
-                          child: const Text(
-                            'Registre-se',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontFamily: 'Poppins'),
-                          ),
-                        ),
-                      ),
+                      registerButton()
                     ],
                   ),
                 ),
@@ -188,6 +132,69 @@ class LoginState extends State<Login> {
             borderSide: BorderSide(color: Colors.black12)),
         filled: true,
         fillColor: Colors.white,
+      ),
+    );
+  }
+
+  Widget enterButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          formKey.currentState!.save();
+          if (!loginData.validForm(loginData)) {
+            //to do verify snackbar
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: const Text(
+                'Formulário de Login Inválido!',
+                style: TextStyle(color: Colors.white),
+              ),
+              backgroundColor: Colors.red,
+              action: SnackBarAction(
+                label: 'Fechar',
+                onPressed: () {},
+              ),
+            ));
+          } else {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const HomeFrequency()));
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(double.infinity, 60),
+          backgroundColor: const Color(0xFF4157ff),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+        ),
+        child: const Text(
+          'Entrar',
+          style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
+        ),
+      ),
+    );
+  }
+
+  Widget registerButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (_) => const RegisterUser()));
+        },
+        style: ElevatedButton.styleFrom(
+          minimumSize: const Size(double.infinity, 60),
+          backgroundColor: const Color(0xFFffffff),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24.0),
+          ),
+        ),
+        child: const Text(
+          'Registre-se',
+          style: TextStyle(
+              color: Colors.black, fontSize: 16, fontFamily: 'Poppins'),
+        ),
       ),
     );
   }
