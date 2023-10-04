@@ -8,7 +8,7 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: const Color(0xf6f6f7fb),
+        backgroundColor: const Color(0xffeeeeff),
         body: Center(
           child: Column(
             children: <Widget>[

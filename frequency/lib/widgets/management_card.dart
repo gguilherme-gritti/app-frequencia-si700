@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frequency/widgets/card_icon_button.dart';
 
 class ManagementCard extends StatelessWidget {
   const ManagementCard();
@@ -24,6 +25,19 @@ class ManagementCard extends StatelessWidget {
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins'),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                CardIconButton(
+                    icon: Icons.calendar_month, text: 'Ver frequência'),
+                SizedBox(
+                  width: 15,
+                ),
+                CardIconButton(icon: Icons.add_card, text: 'Nova Disciplina'),
+              ],
             )
           ],
         ),

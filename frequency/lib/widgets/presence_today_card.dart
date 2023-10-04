@@ -18,7 +18,7 @@ class PresenceTodayCard extends StatelessWidget {
           width: double.infinity,
           height: 120,
           decoration: const BoxDecoration(
-              color: Color(0xf6f6f7fb),
+              color: Color(0xffeeeeff),
               borderRadius: BorderRadius.all(Radius.circular(18))),
           child: const Center(
             child: Icon(

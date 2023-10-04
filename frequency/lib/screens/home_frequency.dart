@@ -10,7 +10,7 @@ class HomeFrequency extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: const Color(0xf6f6f7fb),
+        backgroundColor: const Color(0xffeeeeff),
         body: Column(
           children: <Widget>[
             Container(
@@ -96,7 +96,7 @@ class HomeFrequency extends StatelessWidget {
                 ],
               ),
             ),
-            ManagementCard()
+            const ManagementCard()
           ],
         ),
       ),

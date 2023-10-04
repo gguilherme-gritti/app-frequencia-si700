@@ -17,7 +17,7 @@ class CalendarButton extends StatelessWidget {
       decoration: BoxDecoration(
           border: selected
               ? Border.all(color: Colors.black12, width: 1.0)
-              : Border.all(color: const Color(0xf6f6f7fb), width: 1.0),
+              : Border.all(color: const Color(0xffeeeeff), width: 1.0),
           color: selected ? Colors.white : const Color(0xf6f6f7fb),
           borderRadius: const BorderRadius.all(Radius.circular(32))),
       child: Center(
