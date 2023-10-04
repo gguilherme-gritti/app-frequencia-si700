@@ -44,14 +44,14 @@ class PresenceTodayCard extends StatelessWidget {
           child: const TextDivider(text: 'SI700A'),
         ),
         const FrequencyButtons(),
-        const SizedBox(
-          height: 30,
-        ),
-        Container(
-          padding: const EdgeInsets.all(5),
-          child: const TextDivider(text: 'SI010A'),
-        ),
-        const FrequencyButtons(),
+        // const SizedBox(
+        //   height: 30,
+        // ),
+        // Container(
+        //   padding: const EdgeInsets.all(5),
+        //   child: const TextDivider(text: 'SI010A'),
+        // ),
+        // const FrequencyButtons(),
       ]),
     );
   }

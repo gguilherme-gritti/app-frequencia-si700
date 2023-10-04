@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frequency/widgets/card_icon_button.dart';
+import 'package:frequency/widgets/deatch_icon_card_button.dart';
 
 class ManagementCard extends StatelessWidget {
   const ManagementCard();
@@ -31,12 +32,35 @@ class ManagementCard extends StatelessWidget {
             ),
             Row(
               children: [
-                CardIconButton(
-                    icon: Icons.calendar_month, text: 'Ver frequência'),
+                CardIconButton(icon: Icons.calendar_month, text: 'Frequência'),
                 SizedBox(
                   width: 15,
                 ),
-                CardIconButton(icon: Icons.add_card, text: 'Nova Disciplina'),
+                CardIconButton(icon: Icons.add_card, text: 'Disciplinas'),
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                CardIconButton(icon: Icons.school, text: 'Cursos'),
+                SizedBox(
+                  width: 15,
+                ),
+                CardIconButton(icon: Icons.person_2_outlined, text: 'Perfil'),
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Row(
+              children: [
+                DetachIconCardButton(icon: Icons.calculate, text: 'Percentual'),
+                SizedBox(
+                  width: 15,
+                ),
+                DetachIconCardButton(icon: Icons.offline_share, text: 'Sair')
               ],
             )
           ],
