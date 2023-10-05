@@ -52,7 +52,7 @@ class ListItem extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            width: 10,
+            width: 20,
           ),
           const Icon(
             Icons.delete,

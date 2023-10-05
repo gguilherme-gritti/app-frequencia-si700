@@ -41,9 +41,15 @@ class Disciplines extends StatelessWidget {
                   ),
                   child: DisciplinesList(),
                 ),
-              )
+              ),
             ],
           ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          foregroundColor: Colors.white,
+          backgroundColor: const Color(0xFF4157ff),
+          child: const Icon(Icons.add),
         ),
       ),
     );

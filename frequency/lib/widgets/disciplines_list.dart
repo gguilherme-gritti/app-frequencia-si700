@@ -6,11 +6,11 @@ class DisciplinesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: const <Widget>[
+        SizedBox(height: 15),
         ListItem(),
         ListItem(),
         ListItem(),
         ListItem(),
-        // Adicione mais itens conforme necessário
       ],
     );
   }
