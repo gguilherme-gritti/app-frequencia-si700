@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frequency/screens/home_frequency.dart';
-import 'package:frequency/screens/login.dart';
-import 'package:frequency/screens/register_user.dart';
+import 'package:frequency/screens/about_app.dart';
 
 void main() {
   runApp(const Frequency());
@@ -36,6 +34,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: Login());
+    return const Scaffold(body: AboutApp());
   }
 }
