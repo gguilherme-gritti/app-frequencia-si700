@@ -181,39 +181,35 @@ class LoginState extends State<Login> {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {
-          formKey.currentState!.save();
-          if (!loginData.validForm(loginData)) {
-            //to do verify snackbar
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: const Text(
-                'Formulário de Login Inválido!',
-                style: TextStyle(color: Colors.white),
-              ),
-              backgroundColor: Colors.red,
-              action: SnackBarAction(
-                label: 'Fechar',
-                onPressed: () {},
-              ),
-            ));
-          } else {
-            buildContext
-                .read<AuthBloc>()
-                .add(SignInRequested(loginData.email, loginData.password));
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(double.infinity, 60),
-          backgroundColor: const Color(0xFF4157ff),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.0),
+          onPressed: () {
+            formKey.currentState!.save();
+            if (!loginData.validForm(loginData)) {
+              //to do verify snackbar
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text(
+                  'Formulário de Login Inválido!',
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.red,
+                action: SnackBarAction(
+                  label: 'Fechar',
+                  onPressed: () {},
+                ),
+              ));
+            } else {
+              buildContext
+                  .read<AuthBloc>()
+                  .add(SignInRequested(loginData.email, loginData.password));
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 60),
+            backgroundColor: const Color(0xFF4157ff),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24.0),
+            ),
           ),
-        ),
-        child: const Text(
-          'Entrar',
-          style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
-        ),
-      ),
+          child: buttonChild),
     );
   }
 
