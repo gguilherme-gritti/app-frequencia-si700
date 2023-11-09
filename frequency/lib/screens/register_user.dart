@@ -27,77 +27,111 @@ class RegisterUserState extends State<RegisterUser> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: const Color(0xFF4157ff),
-        body: Center(
-          child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-            return Column(
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(top: 15, bottom: 15),
-                  width: 100.0,
-                  height: 100.0,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('lib/assets/img/register.png'),
-                      fit: BoxFit.fill,
-                    ),
+        body: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) => {
+            if (state is AuthError)
+              {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                    state.msg,
+                    style: const TextStyle(color: Colors.white),
                   ),
-                ),
-                const Text(
-                  'Cadastro',
-                  style: TextStyle(
-                      fontSize: 28,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins'),
-                ),
-                const SizedBox(height: 5),
-                const Text(
-                  'Por favor, preencha os campos abaixo',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white60,
-                      fontFamily: 'Poppins'),
-                ),
-                const SizedBox(height: 30),
-                Expanded(
-                  child: Container(
-                    height: double.infinity,
-                    padding:
-                        const EdgeInsets.only(left: 30, right: 30, top: 40),
+                  backgroundColor: Colors.red,
+                  action: SnackBarAction(
+                    label: 'Fechar',
+                    onPressed: () {},
+                  ),
+                ))
+              }
+            else if (state is Registered)
+              {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: const Text(
+                    'Usuário Cadastrado com sucesso!',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: Colors.green,
+                  action: SnackBarAction(
+                    label: 'Fechar',
+                    onPressed: () {},
+                  ),
+                )),
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => const Login()))
+              }
+          },
+          child: Center(
+            child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+              return Column(
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(top: 15, bottom: 15),
+                    width: 100.0,
+                    height: 100.0,
                     decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20.0),
-                        topRight: Radius.circular(20.0),
+                      image: DecorationImage(
+                        image: AssetImage('lib/assets/img/register.png'),
+                        fit: BoxFit.fill,
                       ),
-                      color: Colors.white,
-                    ),
-                    child: Form(
-                      key: formKey,
-                      child: Column(children: [
-                        raField(),
-                        const SizedBox(height: 15),
-                        emailField(),
-                        const SizedBox(height: 15),
-                        nameField(),
-                        const SizedBox(height: 15),
-                        passwordField(),
-                        const SizedBox(height: 15),
-                        confirmPasswordField(),
-                        const SizedBox(height: 40),
-                        Row(
-                          children: [
-                            cancelButton(),
-                            const SizedBox(width: 15),
-                            registerButton(context, state)
-                          ],
-                        )
-                      ]),
                     ),
                   ),
-                )
-              ],
-            );
-          }),
+                  const Text(
+                    'Cadastro',
+                    style: TextStyle(
+                        fontSize: 28,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins'),
+                  ),
+                  const SizedBox(height: 5),
+                  const Text(
+                    'Por favor, preencha os campos abaixo',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white60,
+                        fontFamily: 'Poppins'),
+                  ),
+                  const SizedBox(height: 30),
+                  Expanded(
+                    child: Container(
+                      height: double.infinity,
+                      padding:
+                          const EdgeInsets.only(left: 30, right: 30, top: 40),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20.0),
+                          topRight: Radius.circular(20.0),
+                        ),
+                        color: Colors.white,
+                      ),
+                      child: Form(
+                        key: formKey,
+                        child: Column(children: [
+                          raField(),
+                          const SizedBox(height: 15),
+                          emailField(),
+                          const SizedBox(height: 15),
+                          nameField(),
+                          const SizedBox(height: 15),
+                          passwordField(),
+                          const SizedBox(height: 15),
+                          confirmPasswordField(),
+                          const SizedBox(height: 40),
+                          Row(
+                            children: [
+                              cancelButton(),
+                              const SizedBox(width: 15),
+                              registerButton(context, state)
+                            ],
+                          )
+                        ]),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -290,15 +324,15 @@ class RegisterUserState extends State<RegisterUser> {
   Widget registerButton(BuildContext buildContext, AuthState state) {
     Widget buttonChild = const Text(
       'Cadastrar',
-      style: TextStyle(fontSize: 16),
+      style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
     );
 
     if (state is Loading) {
-      print(Loading);
-      buttonChild = const CircularProgressIndicator();
-    } else {
-      print(Loading);
+      if (state.load) {
+        buttonChild = const CircularProgressIndicator();
+      }
     }
+
     return Expanded(
       child: ElevatedButton(
           onPressed: () {
@@ -306,21 +340,6 @@ class RegisterUserState extends State<RegisterUser> {
               formKey.currentState!.save();
               buildContext.read<AuthBloc>().add(SignUpRequested(
                   registerUserData.email, registerUserData.password));
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: const Text(
-                  'Usuário Cadastrado com sucesso!',
-                  style: TextStyle(color: Colors.white),
-                ),
-                backgroundColor: Colors.green,
-                action: SnackBarAction(
-                  label: 'Fechar',
-                  onPressed: () {},
-                ),
-              ));
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (_) => HomeFrequency(
-              //           name: registerUserData.name,
-              //         )));
             }
           },
           style: ElevatedButton.styleFrom(

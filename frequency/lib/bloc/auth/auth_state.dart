@@ -11,12 +11,8 @@ class Loading extends AuthState {
 }
 
 class UnAuthenticated extends AuthState {
-  final String msg;
-
-  UnAuthenticated({required this.msg});
-
   @override
-  List<Object> get props => [msg];
+  List<Object> get props => [];
 }
 
 class Authenticated extends AuthState {
@@ -25,4 +21,18 @@ class Authenticated extends AuthState {
 
   @override
   List<Object> get props => [user];
+}
+
+class Registered extends AuthState {
+  @override
+  List<Object> get props => [];
+}
+
+class AuthError extends AuthState {
+  final String msg;
+
+  AuthError({required this.msg});
+
+  @override
+  List<Object> get props => [msg];
 }

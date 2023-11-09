@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
@@ -6,29 +8,35 @@ import 'package:frequency/model/user_model.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
-  AuthBloc({required this.authRepository}) : super(UnAuthenticated(msg: '')) {
+  AuthBloc({required this.authRepository}) : super(UnAuthenticated()) {
     on<SignUpRequested>((event, state) async {
-      emit(Loading(load: true));
+      state(Loading(load: true));
       try {
         await authRepository.signUp(
             email: event.email, password: event.password);
-        emit(Loading(load: false));
+        state(Registered());
+        state(Loading(load: false));
       } catch (e) {
-        emit(Loading(load: false));
+        state(Loading(load: false));
+        state(AuthError(msg: e.toString()));
       }
     });
 
     on<SignInRequested>((event, state) async {
-      emit(Loading(load: true));
+      state(Loading(load: true));
       try {
-        await authRepository.signIn(
+        bool login = false;
+        login = await authRepository.signIn(
             email: event.email, password: event.password);
         User user = User(id: 'id', email: event.email);
-        emit(Authenticated(user: user));
-        emit(Loading(load: false));
+        if (login) {
+          state(Authenticated(user: user));
+        }
+        state(Loading(load: false));
       } catch (e) {
-        emit(UnAuthenticated(msg: e.toString()));
-        emit(Loading(load: false));
+        state(UnAuthenticated());
+        state(AuthError(msg: e.toString()));
+        state(Loading(load: false));
       }
     });
   }

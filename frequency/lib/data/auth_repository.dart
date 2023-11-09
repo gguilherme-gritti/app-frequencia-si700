@@ -5,7 +5,7 @@ class AuthRepository {
 
   Future<void> signUp({required String email, required String password}) async {
     try {
-      FirebaseAuth.instance
+      await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -14,16 +14,19 @@ class AuthRepository {
         throw Exception('Uma conta ja existe pra esse email');
       }
     } catch (e) {
-      throw Exception(e.toString());
+      throw Exception(e);
     }
   }
 
-  Future<void> signIn({required String email, required String password}) async {
+  Future<bool> signIn({required String email, required String password}) async {
+    UserCredential userCredential;
     try {
-      FirebaseAuth.instance
+      userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } catch (e) {
-      throw Exception(e.toString());
+      throw Exception(e);
     }
+
+    return userCredential.user != null ? true : false;
   }
 }

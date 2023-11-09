@@ -37,68 +37,84 @@ class LoginState extends State<Login> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => const HomeFrequency(name: 'Guilherme')))
                 }
+              else if (state is AuthError)
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      state.msg,
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    backgroundColor: Colors.red,
+                    action: SnackBarAction(
+                      label: 'Fechar',
+                      onPressed: () {},
+                    ),
+                  ))
+                }
             },
-            child: Column(
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.only(top: 35, bottom: 30),
-                  width: 120.0,
-                  height: 120.0,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: AssetImage('lib/assets/img/logo.jpg'),
-                      fit: BoxFit.fill,
+            child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+              return Column(
+                children: <Widget>[
+                  Container(
+                    margin: const EdgeInsets.only(top: 35, bottom: 30),
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: AssetImage('lib/assets/img/logo.jpg'),
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: const Column(
-                    children: [
-                      Text(
-                        'FrequencYou',
-                        style: TextStyle(
-                            fontSize: 28.0,
-                            color: Color(0xFF4157ff),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins'),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Controle de Frequência rapido e prático!',
-                        style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black45,
-                            fontFamily: 'Poppins'),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 30),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: Form(
-                    key: formKey,
-                    child: Column(
+                  Container(
+                    padding: const EdgeInsets.only(left: 30, right: 30),
+                    child: const Column(
                       children: [
-                        emailField(),
-                        const SizedBox(height: 20),
-                        passwordField(),
-                        const SizedBox(height: 40),
-                        enterButton(context),
-                        const SizedBox(height: 20),
-                        const TextDivider(text: 'ou'),
-                        const SizedBox(height: 20),
-                        registerButton()
+                        Text(
+                          'FrequencYou',
+                          style: TextStyle(
+                              fontSize: 28.0,
+                              color: Color(0xFF4157ff),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins'),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Controle de Frequência rapido e prático!',
+                          style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.black45,
+                              fontFamily: 'Poppins'),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 30),
                       ],
                     ),
                   ),
-                )
-              ],
-            ),
+                  Container(
+                    padding: const EdgeInsets.only(left: 30, right: 30),
+                    child: Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          emailField(),
+                          const SizedBox(height: 20),
+                          passwordField(),
+                          const SizedBox(height: 40),
+                          enterButton(context, state),
+                          const SizedBox(height: 20),
+                          const TextDivider(text: 'ou'),
+                          const SizedBox(height: 20),
+                          registerButton()
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              );
+            }),
           ),
         ),
       ),
@@ -151,7 +167,17 @@ class LoginState extends State<Login> {
     );
   }
 
-  Widget enterButton(BuildContext buildContext) {
+  Widget enterButton(BuildContext buildContext, AuthState state) {
+    Widget buttonChild = const Text(
+      'Entrar',
+      style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
+    );
+
+    if (state is Loading) {
+      if (state.load) {
+        buttonChild = const CircularProgressIndicator();
+      }
+    }
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
