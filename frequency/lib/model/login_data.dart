@@ -1,11 +1,11 @@
 class LoginData {
-  String ra;
+  String email;
   String password;
 
-  LoginData({required this.ra, required this.password});
+  LoginData({required this.email, required this.password});
 
   bool validForm(LoginData dataLogin) {
-    if (dataLogin.ra.isEmpty || dataLogin.ra.length != 6) {
+    if (dataLogin.email.isEmpty) {
       return false;
     }
 

@@ -1,7 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frequency/bloc/auth/auth_bloc.dart';
+import 'package:frequency/data/auth_repository.dart';
+import 'package:frequency/firebase_options.dart';
 import 'package:frequency/screens/about_app.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+      apiKey: "AIzaSyC-T2XiZYWahv_cjBep2XBwjTa34IKwmPk",
+      appId: "1:945959392660:android:7be44b1ef2f7160e236b81",
+      messagingSenderId: "messaging id",
+      projectId: "frequency-b2fe4",
+    ),
+  );
   runApp(const Frequency());
 }
 
@@ -11,13 +25,20 @@ class Frequency extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Frequency',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return RepositoryProvider(
+      create: (context) => AuthRepository(),
+      child: BlocProvider(
+        create: (context) => AuthBloc(
+            authRepository: RepositoryProvider.of<AuthRepository>(context)),
+        child: MaterialApp(
+          title: 'Frequency',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
+          home: const Home(title: 'Frequency'),
+        ),
       ),
-      home: const Home(title: 'Frequency'),
     );
   }
 }

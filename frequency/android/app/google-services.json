@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "945959392660",
+    "project_id": "frequency-b2fe4",
+    "storage_bucket": "frequency-b2fe4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945959392660:android:7be44b1ef2f7160e236b81",
+        "android_client_info": {
+          "package_name": "com.example.frequency"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2QOjZcRwdt_rsgZkGPsM-5HwLEUkemvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frequency/bloc/auth/auth_bloc.dart';
+import 'package:frequency/bloc/auth/auth_event.dart';
+import 'package:frequency/bloc/auth/auth_state.dart';
 import 'package:frequency/model/register_user_data.dart';
 import 'package:frequency/screens/home_frequency.dart';
 import 'package:frequency/screens/login.dart';
@@ -24,71 +28,76 @@ class RegisterUserState extends State<RegisterUser> {
       home: Scaffold(
         backgroundColor: const Color(0xFF4157ff),
         body: Center(
-          child: Column(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(top: 15, bottom: 15),
-                width: 100.0,
-                height: 100.0,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('lib/assets/img/register.png'),
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-              const Text(
-                'Cadastro',
-                style: TextStyle(
-                    fontSize: 28,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins'),
-              ),
-              const SizedBox(height: 5),
-              const Text(
-                'Por favor, preencha os campos abaixo',
-                style: TextStyle(
-                    fontSize: 16, color: Colors.white60, fontFamily: 'Poppins'),
-              ),
-              const SizedBox(height: 30),
-              Expanded(
-                child: Container(
-                  height: double.infinity,
-                  padding: const EdgeInsets.only(left: 30, right: 30, top: 40),
+          child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+            return Column(
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
+                  width: 100.0,
+                  height: 100.0,
                   decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
+                    image: DecorationImage(
+                      image: AssetImage('lib/assets/img/register.png'),
+                      fit: BoxFit.fill,
                     ),
-                    color: Colors.white,
-                  ),
-                  child: Form(
-                    key: formKey,
-                    child: Column(children: [
-                      raField(),
-                      const SizedBox(height: 15),
-                      emailField(),
-                      const SizedBox(height: 15),
-                      nameField(),
-                      const SizedBox(height: 15),
-                      passwordField(),
-                      const SizedBox(height: 15),
-                      confirmPasswordField(),
-                      const SizedBox(height: 40),
-                      Row(
-                        children: [
-                          cancelButton(),
-                          const SizedBox(width: 15),
-                          registerButton()
-                        ],
-                      )
-                    ]),
                   ),
                 ),
-              )
-            ],
-          ),
+                const Text(
+                  'Cadastro',
+                  style: TextStyle(
+                      fontSize: 28,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins'),
+                ),
+                const SizedBox(height: 5),
+                const Text(
+                  'Por favor, preencha os campos abaixo',
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white60,
+                      fontFamily: 'Poppins'),
+                ),
+                const SizedBox(height: 30),
+                Expanded(
+                  child: Container(
+                    height: double.infinity,
+                    padding:
+                        const EdgeInsets.only(left: 30, right: 30, top: 40),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20.0),
+                        topRight: Radius.circular(20.0),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Form(
+                      key: formKey,
+                      child: Column(children: [
+                        raField(),
+                        const SizedBox(height: 15),
+                        emailField(),
+                        const SizedBox(height: 15),
+                        nameField(),
+                        const SizedBox(height: 15),
+                        passwordField(),
+                        const SizedBox(height: 15),
+                        confirmPasswordField(),
+                        const SizedBox(height: 40),
+                        Row(
+                          children: [
+                            cancelButton(),
+                            const SizedBox(width: 15),
+                            registerButton(context, state)
+                          ],
+                        )
+                      ]),
+                    ),
+                  ),
+                )
+              ],
+            );
+          }),
         ),
       ),
     );
@@ -278,30 +287,50 @@ class RegisterUserState extends State<RegisterUser> {
     );
   }
 
-  Widget registerButton() {
+  Widget registerButton(BuildContext buildContext, AuthState state) {
+    Widget buttonChild = const Text(
+      'Cadastrar',
+      style: TextStyle(fontSize: 16),
+    );
+
+    if (state is Loading) {
+      print(Loading);
+      buttonChild = const CircularProgressIndicator();
+    } else {
+      print(Loading);
+    }
     return Expanded(
       child: ElevatedButton(
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            formKey.currentState!.save();
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => HomeFrequency(
-                      name: registerUserData.name,
-                    )));
-          }
-        },
-        style: ElevatedButton.styleFrom(
-          minimumSize: const Size(double.infinity, 60),
-          backgroundColor: const Color(0xFF4157ff),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.0),
+          onPressed: () {
+            if (formKey.currentState!.validate()) {
+              formKey.currentState!.save();
+              buildContext.read<AuthBloc>().add(SignUpRequested(
+                  registerUserData.email, registerUserData.password));
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text(
+                  'Usuário Cadastrado com sucesso!',
+                  style: TextStyle(color: Colors.white),
+                ),
+                backgroundColor: Colors.green,
+                action: SnackBarAction(
+                  label: 'Fechar',
+                  onPressed: () {},
+                ),
+              ));
+              // Navigator.of(context).push(MaterialPageRoute(
+              //     builder: (_) => HomeFrequency(
+              //           name: registerUserData.name,
+              //         )));
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(double.infinity, 60),
+            backgroundColor: const Color(0xFF4157ff),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(24.0),
+            ),
           ),
-        ),
-        child: const Text(
-          'Cadastrar',
-          style: TextStyle(fontSize: 16),
-        ),
-      ),
+          child: buttonChild),
     );
   }
 }
