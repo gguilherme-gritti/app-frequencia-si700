@@ -18,3 +18,5 @@ class SignInRequested extends AuthEvent {
 
   SignInRequested(this.email, this.password);
 }
+
+class SignOutRequested extends AuthEvent {}

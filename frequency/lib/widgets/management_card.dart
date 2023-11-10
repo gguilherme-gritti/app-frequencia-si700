@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frequency/bloc/auth/auth_bloc.dart';
+import 'package:frequency/bloc/auth/auth_event.dart';
+import 'package:frequency/bloc/auth/auth_state.dart';
 import 'package:frequency/screens/disciplines.dart';
+import 'package:frequency/screens/login.dart';
 import 'package:frequency/widgets/card_icon_button.dart';
 import 'package:frequency/widgets/deatch_icon_card_button.dart';
 
@@ -8,7 +13,14 @@ class ManagementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) => {
+        if (state is UnAuthenticated)
+          {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => const Login()))
+          }
+      },
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(15),
@@ -68,13 +80,21 @@ class ManagementCard extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            const Row(
+            Row(
               children: [
-                DetachIconCardButton(icon: Icons.calculate, text: 'Percentual'),
-                SizedBox(
+                DetachIconCardButton(
+                    icon: Icons.calculate,
+                    text: 'Percentual',
+                    onPressed: () {}),
+                const SizedBox(
                   width: 15,
                 ),
-                DetachIconCardButton(icon: Icons.offline_share, text: 'Sair')
+                DetachIconCardButton(
+                    icon: Icons.offline_share,
+                    text: 'Sair',
+                    onPressed: () {
+                      context.read<AuthBloc>().add(SignOutRequested());
+                    })
               ],
             )
           ],

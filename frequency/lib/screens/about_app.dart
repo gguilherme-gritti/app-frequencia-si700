@@ -16,8 +16,8 @@ class AboutApp extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(top: 15, bottom: 15),
-                width: 350.0,
-                height: 350.0,
+                width: 450.0,
+                height: 450.0,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('lib/assets/img/frequency.png'),
