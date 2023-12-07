@@ -60,7 +60,7 @@ class ManagementCard extends StatelessWidget {
                     text: 'Disciplinas',
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const RegisterDiscipline()));
+                          builder: (_) => const Disciplines()));
                     }),
               ],
             ),

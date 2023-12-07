@@ -32,5 +32,6 @@ class DisciplinesList extends DisciplineState {
   final disciplines;
 
   DisciplinesList({required this.disciplines});
+
   List<Object> get props => [disciplines];
 }

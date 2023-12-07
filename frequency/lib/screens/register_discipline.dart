@@ -46,7 +46,6 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
   final DisciplineDataModel disciplineData = DisciplineDataModel(
       code: "",
       description: "",
-      user_email: "",
       course_id: "",
       initial_hour: "",
       final_hour: "",

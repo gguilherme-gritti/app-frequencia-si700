@@ -5,7 +5,6 @@ class DisciplineDataModel {
   String initial_hour;
   String final_hour;
   String description;
-  String user_email;
 
   DisciplineDataModel({
     required this.course_id,
@@ -14,6 +13,5 @@ class DisciplineDataModel {
     required this.week_day,
     required this.initial_hour,
     required this.final_hour,
-    required this.user_email,
   });
 }

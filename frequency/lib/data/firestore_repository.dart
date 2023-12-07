@@ -133,18 +133,22 @@ class FirestoreRepository {
 
       List<Map<String, dynamic>> disciplinesList = [];
 
-      for (var course in disciplines) {
-        Map<String, dynamic>? data = course.data() as Map<String, dynamic>?;
+      for (var discipline in disciplines) {
+        Map<String, dynamic>? data = discipline.data() as Map<String, dynamic>?;
 
         if (data != null) {
-          print('Dados do curso: $data');
+          print('Dados da Disciplina: $data');
 
-          Map<String, dynamic> courseObject = {
-            'id': course.id,
+          Map<String, dynamic> disciplineObject = {
+            'id': discipline.id,
             'code': data['code'],
+            'week_day': data['week_day'],
+            'initial_hour': data['initial_hour'],
+            'final_hour': data['final_hour'],
+            'description': data['description']
           };
 
-          disciplinesList.add(courseObject);
+          disciplinesList.add(disciplineObject);
         } else {
           print('Dados do curso estão vazios ou nulos.');
         }

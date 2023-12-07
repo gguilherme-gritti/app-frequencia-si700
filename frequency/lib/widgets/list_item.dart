@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ListItem extends StatelessWidget {
-  const ListItem();
+  final Map<String, dynamic> data;
+  const ListItem({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
