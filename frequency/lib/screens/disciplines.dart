@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frequency/screens/register_discipline.dart';
 import 'package:frequency/widgets/disciplines_list.dart';
 
 class Disciplines extends StatelessWidget {
@@ -39,14 +40,17 @@ class Disciplines extends StatelessWidget {
                     ),
                     color: Color(0xffeeeeff),
                   ),
-                  child: DisciplinesListView(),
+                  child: const DisciplinesListView(),
                 ),
               ),
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const RegisterDiscipline()));
+          },
           foregroundColor: Colors.white,
           backgroundColor: const Color(0xFF4157ff),
           child: const Icon(Icons.add),

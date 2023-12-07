@@ -71,15 +71,13 @@ class RegisterDisciplineState extends State<DisciplinesListView> {
   Widget list() {
     return BlocBuilder<DisciplineBloc, DisciplineState>(
       builder: (context, state) {
-        print(state);
-        print('auqiuiauiquiqis');
         if (state is DisciplinesList) {
           List<Map<String, dynamic>> itemList = state.disciplines;
           return Column(
             children: itemList.map((item) => ListItem(data: item)).toList(),
           );
         } else {
-          return Container(); // ou outro widget vazio
+          return Container();
         }
       },
     );
