@@ -5,6 +5,7 @@ import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
 import 'package:frequency/bloc/course/course_bloc.dart';
 import 'package:frequency/bloc/course/course_event.dart';
+import 'package:frequency/bloc/course/course_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_event.dart';
 import 'package:frequency/bloc/user/user_state.dart';
@@ -23,8 +24,9 @@ class RegisterDiscipline extends StatefulWidget {
 }
 
 class RegisterDisciplineState extends State<RegisterDiscipline> {
-  late UserBloc
-      userBloc; // Declare uma variável para armazenar a instância do seu BLoC
+  late UserBloc userBloc;
+
+  late CourseBloc courseBloc;
 
   @override
   void initState() {
@@ -35,7 +37,10 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
 
     if (currentState is UserData) {
       UserDataModel userData = currentState.user;
-      print(userData.id);
+
+      courseBloc = BlocProvider.of<CourseBloc>(context);
+
+      courseBloc.add(GetCoursesRequested(userData.id));
     }
   }
 
@@ -136,7 +141,11 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
                       child: Form(
                         key: formKey,
                         child: Column(children: [
-                          courseTest(),
+                          CourseDropdown(onCourseSelected:
+                              (Map<String, dynamic>? selectedCourse) {
+                            // Faça algo com o curso selecionado, se necessário
+                            print("Curso selecionado: $selectedCourse");
+                          }),
                           const SizedBox(height: 15),
                           codeField(),
                           const SizedBox(height: 15),
@@ -193,31 +202,6 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
               borderSide: BorderSide(color: Colors.black12)),
           filled: true,
           fillColor: Colors.white),
-    );
-  }
-
-  Widget courseTest() {
-    // Lista de opções para o dropdown
-    List<String> options = ['', 'Opção 1', 'Opção 2', 'Opção 3'];
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        DropdownButton<String>(
-          value: disciplineData.course_code,
-          onChanged: (String? newValue) {
-            setState(() {
-              disciplineData.course_code = newValue!;
-            });
-          },
-          items: options.map((String option) {
-            return DropdownMenuItem<String>(
-              value: option,
-              child: Text(option),
-            );
-          }).toList(),
-        ),
-      ],
     );
   }
 
@@ -413,5 +397,55 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
           ),
           child: buttonChild),
     );
+  }
+}
+
+class CourseDropdown extends StatefulWidget {
+  final Function(Map<String, dynamic>?) onCourseSelected;
+
+  const CourseDropdown({Key? key, required this.onCourseSelected})
+      : super(key: key);
+
+  @override
+  _CourseDropdownState createState() => _CourseDropdownState();
+}
+
+class _CourseDropdownState extends State<CourseDropdown> {
+  List<Map<String, dynamic>> items = [
+    {'id': '', 'code': ''},
+  ];
+
+  Map<String, dynamic>? selectedOption;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CourseBloc, CourseState>(builder: (context, state) {
+      if (state is CoursesList) {
+        items = state.courses;
+      }
+
+      return Column(
+        children: [
+          Container(
+            width: double.infinity, // Define a largura como 100%
+            child: DropdownButton<Map<String, dynamic>>(
+              value: selectedOption,
+              items: items.map((item) {
+                return DropdownMenuItem<Map<String, dynamic>>(
+                  value: item,
+                  child: Text(item['code']),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedOption = value;
+                  widget.onCourseSelected(selectedOption);
+                });
+              },
+            ),
+          ),
+        ],
+      );
+    });
   }
 }

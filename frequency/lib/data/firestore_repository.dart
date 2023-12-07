@@ -58,27 +58,34 @@ class FirestoreRepository {
     }
   }
 
-  Future getCourses({required String userId}) async {
+  Future<List<Map<String, dynamic>>> getCourses(
+      {required String userId}) async {
     try {
       var coursesQuery =
           await _db.collection('user').doc(userId).collection('course').get();
 
       List<DocumentSnapshot> courses = coursesQuery.docs;
 
+      List<Map<String, dynamic>> coursesList = [];
+
       for (var course in courses) {
         Map<String, dynamic>? data = course.data() as Map<String, dynamic>?;
 
         if (data != null) {
           print('Dados do curso: $data');
+
+          Map<String, dynamic> courseObject = {
+            'id': course.id,
+            'code': data['code'],
+          };
+
+          coursesList.add(courseObject);
         } else {
           print('Dados do curso estão vazios ou nulos.');
         }
       }
 
-      print(courses);
-      return courses;
-
-      // Itera sobre os documentos da coleção filha
+      return coursesList;
     } catch (e) {
       throw Exception(e);
     }
