@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
 import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
+import 'package:frequency/screens/courses.dart';
 import 'package:frequency/screens/disciplines.dart';
 import 'package:frequency/screens/login.dart';
 import 'package:frequency/screens/perfil.dart';
 import 'package:frequency/screens/register_course.dart';
 import 'package:frequency/screens/register_discipline.dart';
 import 'package:frequency/widgets/card_icon_button.dart';
+import 'package:frequency/widgets/courses_list_view.dart';
 import 'package:frequency/widgets/deatch_icon_card_button.dart';
 
 class ManagementCard extends StatelessWidget {
@@ -73,8 +75,8 @@ class ManagementCard extends StatelessWidget {
                     icon: Icons.school,
                     text: 'Cursos',
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const RegisterCourse()));
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const Courses()));
                     }),
                 const SizedBox(
                   width: 15,

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frequency/screens/home_frequency.dart';
+import 'package:frequency/screens/register_course.dart';
 import 'package:frequency/screens/register_discipline.dart';
+import 'package:frequency/widgets/courses_list_view.dart';
 import 'package:frequency/widgets/disciplines_list.dart';
 
-class Disciplines extends StatelessWidget {
-  const Disciplines();
+class Courses extends StatelessWidget {
+  const Courses();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class Disciplines extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               const Text(
-                'Disciplinas',
+                'Cursos',
                 style: TextStyle(
                     fontSize: 28,
                     color: Colors.white,
@@ -41,17 +43,17 @@ class Disciplines extends StatelessWidget {
                     ),
                     color: Color(0xffeeeeff),
                   ),
-                  child: const DisciplinesListView(),
+                  child: const CoursesListView(),
                 ),
               ),
-              back(context),
+              back(context)
             ],
           ),
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const RegisterDiscipline()));
+                MaterialPageRoute(builder: (_) => const RegisterCourse()));
           },
           foregroundColor: Colors.white,
           backgroundColor: const Color(0xFF4157ff),

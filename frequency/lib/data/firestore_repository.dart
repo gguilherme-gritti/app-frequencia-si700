@@ -78,6 +78,7 @@ class FirestoreRepository {
           Map<String, dynamic> courseObject = {
             'id': course.id,
             'code': data['code'],
+            'description': data['description']
           };
 
           coursesList.add(courseObject);
