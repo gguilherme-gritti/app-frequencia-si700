@@ -3,10 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
 import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
+import 'package:frequency/bloc/course/course_bloc.dart';
+import 'package:frequency/bloc/course/course_event.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_event.dart';
+import 'package:frequency/bloc/user/user_state.dart';
 import 'package:frequency/model/firebase/course_data.dart';
 import 'package:frequency/model/firebase/discipline_data.dart';
+import 'package:frequency/model/firebase/user_data.dart';
 import 'package:frequency/screens/login.dart';
 
 class RegisterDiscipline extends StatefulWidget {
@@ -19,6 +23,22 @@ class RegisterDiscipline extends StatefulWidget {
 }
 
 class RegisterDisciplineState extends State<RegisterDiscipline> {
+  late UserBloc
+      userBloc; // Declare uma variável para armazenar a instância do seu BLoC
+
+  @override
+  void initState() {
+    super.initState();
+
+    userBloc = BlocProvider.of<UserBloc>(context);
+    UserState currentState = userBloc.state;
+
+    if (currentState is UserData) {
+      UserDataModel userData = currentState.user;
+      print(userData.id);
+    }
+  }
+
   final DisciplineDataModel disciplineData = DisciplineDataModel(
       code: "",
       description: "",
@@ -116,7 +136,7 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
                       child: Form(
                         key: formKey,
                         child: Column(children: [
-                          course(),
+                          courseTest(),
                           const SizedBox(height: 15),
                           codeField(),
                           const SizedBox(height: 15),
@@ -173,6 +193,31 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
               borderSide: BorderSide(color: Colors.black12)),
           filled: true,
           fillColor: Colors.white),
+    );
+  }
+
+  Widget courseTest() {
+    // Lista de opções para o dropdown
+    List<String> options = ['', 'Opção 1', 'Opção 2', 'Opção 3'];
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        DropdownButton<String>(
+          value: disciplineData.course_code,
+          onChanged: (String? newValue) {
+            setState(() {
+              disciplineData.course_code = newValue!;
+            });
+          },
+          items: options.map((String option) {
+            return DropdownMenuItem<String>(
+              value: option,
+              child: Text(option),
+            );
+          }).toList(),
+        ),
+      ],
     );
   }
 

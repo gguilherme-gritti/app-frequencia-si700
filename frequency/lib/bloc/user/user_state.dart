@@ -26,6 +26,8 @@ class UserData extends UserState {
   UserData({required this.user});
 
   List<Object> get props => [user];
+
+  UserDataModel get getUserData => user;
 }
 
 class UserError extends UserState {

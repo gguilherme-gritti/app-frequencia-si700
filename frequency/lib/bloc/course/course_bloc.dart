@@ -19,5 +19,17 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         state(CourseError(msg: e.toString()));
       }
     });
+
+    on<GetCoursesRequested>((event, state) async {
+      state(LoadingCourse(load: true));
+      try {
+        var courses = await dbRepository.getCourses(userId: event.userId);
+        state(CoursesList(courses: courses));
+        state(LoadingCourse(load: false));
+      } catch (e) {
+        state(LoadingCourse(load: false));
+        state(CourseError(msg: e.toString()));
+      }
+    });
   }
 }

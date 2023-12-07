@@ -27,3 +27,10 @@ class CourseError extends CourseState {
   @override
   List<Object> get props => [msg];
 }
+
+class CoursesList extends CourseState {
+  final courses;
+
+  CoursesList({required this.courses});
+  List<Object> get props => [courses];
+}

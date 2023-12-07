@@ -12,3 +12,9 @@ class AddCourseRequested extends CourseEvent {
 
   AddCourseRequested(this.courseData, this.userId);
 }
+
+class GetCoursesRequested extends CourseEvent {
+  final String userId;
+
+  GetCoursesRequested(this.userId);
+}
