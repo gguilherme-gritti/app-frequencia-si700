@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
 import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
+import 'package:frequency/bloc/user/user_bloc.dart';
+import 'package:frequency/bloc/user/user_event.dart';
 import 'package:frequency/model/register_user_data.dart';
-import 'package:frequency/screens/home_frequency.dart';
 import 'package:frequency/screens/login.dart';
 
 class RegisterUser extends StatefulWidget {
@@ -340,6 +341,9 @@ class RegisterUserState extends State<RegisterUser> {
               formKey.currentState!.save();
               buildContext.read<AuthBloc>().add(SignUpRequested(
                   registerUserData.email, registerUserData.password));
+              buildContext
+                  .read<UserBloc>()
+                  .add(AddUserRequested(registerUserData));
             }
           },
           style: ElevatedButton.styleFrom(

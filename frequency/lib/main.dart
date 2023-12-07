@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
+import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/data/auth_repository.dart';
+import 'package:frequency/data/firestore_repository.dart';
 import 'package:frequency/firebase_options.dart';
 import 'package:frequency/screens/about_app.dart';
 
@@ -23,13 +25,28 @@ class Frequency extends StatelessWidget {
   const Frequency({super.key});
 
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => AuthRepository(),
-      child: BlocProvider(
-        create: (context) => AuthBloc(
-            authRepository: RepositoryProvider.of<AuthRepository>(context)),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(
+            create: (context) => AuthRepository()),
+        RepositoryProvider<FirestoreRepository>(
+            create: (context) => FirestoreRepository()),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(
+                authRepository: RepositoryProvider.of<AuthRepository>(context)),
+          ),
+          BlocProvider<UserBloc>(
+            create: (context) => UserBloc(
+                dbRepository:
+                    RepositoryProvider.of<FirestoreRepository>(context)),
+          ),
+        ],
         child: MaterialApp(
           title: 'Frequency',
           theme: ThemeData(
@@ -41,6 +58,25 @@ class Frequency extends StatelessWidget {
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return RepositoryProvider(
+  //     create: (context) => AuthRepository(),
+  //     child: BlocProvider(
+  //       create: (context) => AuthBloc(
+  //           authRepository: RepositoryProvider.of<AuthRepository>(context)),
+  //       child: MaterialApp(
+  //         title: 'Frequency',
+  //         theme: ThemeData(
+  //           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+  //           useMaterial3: true,
+  //         ),
+  //         home: const Home(title: 'Frequency'),
+  //       ),
+  //     ),
+  //   );
+  // }
 }
 
 class Home extends StatefulWidget {
