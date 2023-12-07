@@ -117,4 +117,42 @@ class FirestoreRepository {
       throw Exception(e);
     }
   }
+
+  Future<List<Map<String, dynamic>>> getDisciplines(
+      {required String userId, required String courseId}) async {
+    try {
+      var disciplinesQuery = await _db
+          .collection('user')
+          .doc(userId)
+          .collection('course')
+          .doc(courseId)
+          .collection('discipline')
+          .get();
+
+      List<DocumentSnapshot> disciplines = disciplinesQuery.docs;
+
+      List<Map<String, dynamic>> disciplinesList = [];
+
+      for (var course in disciplines) {
+        Map<String, dynamic>? data = course.data() as Map<String, dynamic>?;
+
+        if (data != null) {
+          print('Dados do curso: $data');
+
+          Map<String, dynamic> courseObject = {
+            'id': course.id,
+            'code': data['code'],
+          };
+
+          disciplinesList.add(courseObject);
+        } else {
+          print('Dados do curso estão vazios ou nulos.');
+        }
+      }
+
+      return disciplinesList;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
