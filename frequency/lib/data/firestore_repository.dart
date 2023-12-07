@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:frequency/model/firebase/course_data.dart';
 import 'package:frequency/model/firebase/discipline_data.dart';
+import 'package:frequency/model/firebase/frequency_data.dart';
 import 'package:frequency/model/firebase/user_data.dart';
 import 'package:frequency/model/register_user_data.dart';
 
@@ -156,6 +157,26 @@ class FirestoreRepository {
       }
 
       return disciplinesList;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> addFrequency(
+      {required FrequencyDataModel frequencyData,
+      required String userId}) async {
+    try {
+      final frequency = <String, dynamic>{
+        "discipline_id": frequencyData.discipline_id,
+        "date": frequencyData.date,
+        "presence": frequencyData.presence,
+      };
+
+      CollectionReference ref =
+          _db.collection('user').doc(userId).collection('frequency');
+
+      await ref.add(frequency).then((DocumentReference doc) =>
+          print('DocumentSnapshot added with ID: ${doc.id}'));
     } catch (e) {
       throw Exception(e);
     }

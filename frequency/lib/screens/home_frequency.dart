@@ -5,6 +5,7 @@ import 'package:frequency/bloc/user/user_state.dart';
 import 'package:frequency/widgets/calendar_button.dart';
 import 'package:frequency/widgets/management_card.dart';
 import 'package:frequency/widgets/presence_today_card.dart';
+import 'package:intl/intl.dart';
 
 class HomeFrequency extends StatelessWidget {
   const HomeFrequency();
@@ -44,46 +45,8 @@ class HomeFrequency extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    const Row(
-                      children: [
-                        CalendarButton(
-                          selected: false,
-                          weekDay: 'Seg',
-                          numberDay: '2',
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        CalendarButton(
-                          selected: false,
-                          weekDay: 'Ter',
-                          numberDay: '3',
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        CalendarButton(
-                          selected: true,
-                          weekDay: 'Qua',
-                          numberDay: '4',
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        CalendarButton(
-                          selected: false,
-                          weekDay: 'Qui',
-                          numberDay: '5',
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        CalendarButton(
-                          selected: false,
-                          weekDay: 'Sex',
-                          numberDay: '6',
-                        ),
-                      ],
+                    Row(
+                      children: buildCalendarButtons(),
                     ),
                     const SizedBox(
                       height: 20,
@@ -124,5 +87,30 @@ class HomeFrequency extends StatelessWidget {
     }
 
     return child;
+  }
+
+  List<Widget> buildCalendarButtons() {
+    DateTime currentDate = DateTime.now();
+
+    List<Widget> calendarButtons = [];
+
+    for (int i = -2; i <= 2; i++) {
+      DateTime date = currentDate.add(Duration(days: i));
+      String weekDay = DateFormat.E('pt_BR')
+          .format(date); // Utilizando intl package para obter o nome do dia
+      String numberDay = DateFormat.d().format(date);
+
+      calendarButtons.add(CalendarButton(
+        selected: i == 0, // Marcar o dia atual como selecionado
+        weekDay: weekDay,
+        numberDay: numberDay,
+      ));
+
+      if (i < 2) {
+        calendarButtons.add(SizedBox(width: 5));
+      }
+    }
+
+    return calendarButtons;
   }
 }

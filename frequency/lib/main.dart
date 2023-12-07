@@ -8,6 +8,7 @@ import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/data/auth_repository.dart';
 import 'package:frequency/data/firestore_repository.dart';
 import 'package:frequency/screens/about_app.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,8 @@ void main() async {
       projectId: "frequency-b2fe4",
     ),
   );
+  await initializeDateFormatting('pt_BR', null);
+
   runApp(const Frequency());
 }
 
