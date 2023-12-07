@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
 import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
+import 'package:frequency/bloc/user/user_bloc.dart';
+import 'package:frequency/bloc/user/user_event.dart';
 import 'package:frequency/model/login_data.dart';
 import 'package:frequency/screens/home_frequency.dart';
 import 'package:frequency/screens/register_user.dart';
@@ -200,6 +202,9 @@ class LoginState extends State<Login> {
               buildContext
                   .read<AuthBloc>()
                   .add(SignInRequested(loginData.email, loginData.password));
+              buildContext
+                  .read<UserBloc>()
+                  .add(GetUserRequested(loginData.email));
             }
           },
           style: ElevatedButton.styleFrom(

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:frequency/model/firebase/user_data.dart';
 
 abstract class UserState extends Equatable {}
 
@@ -17,6 +18,14 @@ class UnAuthenticated extends UserState {
 class Registered extends UserState {
   @override
   List<Object> get props => [];
+}
+
+class UserData extends UserState {
+  final UserDataModel user;
+
+  UserData({required this.user});
+
+  List<Object> get props => [user];
 }
 
 class UserError extends UserState {

@@ -11,3 +11,9 @@ class AddUserRequested extends UserEvent {
 
   AddUserRequested(this.userData);
 }
+
+class GetUserRequested extends UserEvent {
+  final String email;
+
+  GetUserRequested(this.email);
+}
