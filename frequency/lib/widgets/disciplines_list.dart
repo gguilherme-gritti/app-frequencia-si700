@@ -5,13 +5,14 @@ import 'package:frequency/bloc/course/course_event.dart';
 import 'package:frequency/bloc/course/course_state.dart';
 import 'package:frequency/bloc/discipline/discipline_bloc.dart';
 import 'package:frequency/bloc/discipline/discipline_event.dart';
+import 'package:frequency/bloc/discipline/discipline_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_state.dart';
 import 'package:frequency/model/firebase/user_data.dart';
 import 'package:frequency/widgets/list_item.dart';
 
-class DisciplinesList extends StatefulWidget {
-  const DisciplinesList({Key? key}) : super(key: key);
+class DisciplinesListView extends StatefulWidget {
+  const DisciplinesListView({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -19,7 +20,7 @@ class DisciplinesList extends StatefulWidget {
   }
 }
 
-class RegisterDisciplineState extends State<DisciplinesList> {
+class RegisterDisciplineState extends State<DisciplinesListView> {
   late UserBloc userBloc;
 
   late CourseBloc courseBloc;
@@ -61,33 +62,27 @@ class RegisterDisciplineState extends State<DisciplinesList> {
               },
             ),
           ),
-          ListItem(data: {
-            'id': '2',
-            'code': 'SI701B',
-            'week_day': 'Terça',
-            'initial_hour': '10:00',
-            'final_hour': '12:00',
-            'description': 'Redes de Computadores',
-          }),
-          ListItem(data: {
-            'id': '3',
-            'code': 'SI702C',
-            'week_day': 'Quarta',
-            'initial_hour': '14:00',
-            'final_hour': '16:00',
-            'description': 'Banco de Dados',
-          }),
-          ListItem(data: {
-            'id': '4',
-            'code': 'SI703D',
-            'week_day': 'Quinta',
-            'initial_hour': '16:00',
-            'final_hour': '18:00',
-            'description': 'Inteligência Artificial',
-          }),
+          list()
         ],
       );
     });
+  }
+
+  Widget list() {
+    return BlocBuilder<DisciplineBloc, DisciplineState>(
+      builder: (context, state) {
+        print(state);
+        print('auqiuiauiquiqis');
+        if (state is DisciplinesList) {
+          List<Map<String, dynamic>> itemList = state.disciplines;
+          return Column(
+            children: itemList.map((item) => ListItem(data: item)).toList(),
+          );
+        } else {
+          return Container(); // ou outro widget vazio
+        }
+      },
+    );
   }
 }
 

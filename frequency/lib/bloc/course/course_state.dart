@@ -32,5 +32,6 @@ class CoursesList extends CourseState {
   final courses;
 
   CoursesList({required this.courses});
+
   List<Object> get props => [courses];
 }

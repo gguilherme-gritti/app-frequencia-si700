@@ -33,9 +33,9 @@ class ListItem extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          const Text(
-            'SI700A',
-            style: TextStyle(
+          Text(
+            data['code'],
+            style: const TextStyle(
                 fontSize: 18,
                 fontFamily: 'Poppins',
                 color: Color(0xFF4157ff),
@@ -44,9 +44,9 @@ class ListItem extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          const Text(
-            'Programação para Dispositivos Móveis',
-            style: TextStyle(
+          Text(
+            data['description'],
+            style: const TextStyle(
               fontSize: 14,
               fontFamily: 'Poppins',
               color: Colors.black54,
@@ -55,10 +55,10 @@ class ListItem extends StatelessWidget {
           const SizedBox(
             width: 20,
           ),
-          const Icon(
-            Icons.delete,
-            color: Colors.black38,
-          )
+          // const Icon(
+          //   Icons.delete,
+          //   color: Colors.black38,
+          // )
         ],
       ),
     );

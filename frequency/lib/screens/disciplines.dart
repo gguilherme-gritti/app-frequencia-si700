@@ -39,7 +39,7 @@ class Disciplines extends StatelessWidget {
                     ),
                     color: Color(0xffeeeeff),
                   ),
-                  child: DisciplinesList(),
+                  child: DisciplinesListView(),
                 ),
               ),
             ],
