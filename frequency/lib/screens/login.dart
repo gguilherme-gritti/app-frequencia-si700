@@ -36,8 +36,8 @@ class LoginState extends State<Login> {
             listener: (context, state) => {
               if (state is Authenticated)
                 {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => const HomeFrequency(name: 'Guilherme')))
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const HomeFrequency()))
                 }
               else if (state is AuthError)
                 {

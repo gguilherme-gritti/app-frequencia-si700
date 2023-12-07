@@ -35,7 +35,8 @@ class RegisterUserState extends State<RegisterUser> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
                     state.msg,
-                    style: const TextStyle(color: Colors.white),
+                    style: const TextStyle(
+                        color: Colors.white, fontFamily: 'Poppins'),
                   ),
                   backgroundColor: Colors.red,
                   action: SnackBarAction(
@@ -317,7 +318,8 @@ class RegisterUserState extends State<RegisterUser> {
           ),
         ),
         child: const Text('Cancelar',
-            style: TextStyle(color: Colors.black, fontSize: 16)),
+            style: TextStyle(
+                color: Colors.black, fontSize: 16, fontFamily: 'Poppins')),
       ),
     );
   }
