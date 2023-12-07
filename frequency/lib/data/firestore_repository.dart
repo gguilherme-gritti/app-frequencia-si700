@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:frequency/model/firebase/course_data.dart';
 import 'package:frequency/model/firebase/user_data.dart';
 import 'package:frequency/model/register_user_data.dart';
 
@@ -32,7 +33,26 @@ class FirestoreRepository {
         throw Exception('Dados do usuário não encontrado');
       }
 
+      print(users.docs.first.id);
       return UserDataModel.fromFirestore(users.docs.first);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> addCourse(
+      {required CourseDataModel courseData, required String userId}) async {
+    try {
+      final course = <String, dynamic>{
+        "code": courseData.code,
+        "description": courseData.description,
+      };
+
+      CollectionReference ref =
+          _db.collection('user').doc(userId).collection('course');
+
+      await ref.add(course).then((DocumentReference doc) =>
+          print('DocumentSnapshot added with ID: ${doc.id}'));
     } catch (e) {
       throw Exception(e);
     }

@@ -85,7 +85,7 @@ class Perfil extends StatelessWidget {
           fontFamily: 'Poppins'),
       textAlign: TextAlign.center,
     );
-    if (state is Loading) {
+    if (state is LoadingUser) {
       if (state.load) {
         child = const CircularProgressIndicator();
       }
@@ -112,7 +112,7 @@ class Perfil extends StatelessWidget {
       style: TextStyle(fontSize: 20.0, fontFamily: 'Poppins'),
       textAlign: TextAlign.center,
     );
-    if (state is Loading) {
+    if (state is LoadingUser) {
       if (state.load) {
         child = const CircularProgressIndicator();
       }

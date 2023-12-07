@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
-import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
+import 'package:frequency/bloc/course/course_bloc.dart';
+import 'package:frequency/bloc/course/course_event.dart';
+import 'package:frequency/bloc/course/course_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
-import 'package:frequency/bloc/user/user_event.dart';
-import 'package:frequency/model/firebase/discipline_data.dart';
+import 'package:frequency/bloc/user/user_state.dart';
+import 'package:frequency/model/firebase/course_data.dart';
 import 'package:frequency/screens/login.dart';
 
 class RegisterCourse extends StatefulWidget {
@@ -18,14 +20,10 @@ class RegisterCourse extends StatefulWidget {
 }
 
 class RegisterCourseState extends State<RegisterCourse> {
-  final DisciplineDataModel disciplineData = DisciplineDataModel(
-      code: "",
-      description: "",
-      user_email: "",
-      course_code: "",
-      final_hour: "",
-      initial_hour: "",
-      week_day: "");
+  final CourseDataModel courseData = CourseDataModel(
+    code: "",
+    description: "",
+  );
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -34,9 +32,9 @@ class RegisterCourseState extends State<RegisterCourse> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: const Color(0xFF4157ff),
-        body: BlocListener<AuthBloc, AuthState>(
+        body: BlocListener<CourseBloc, CourseState>(
           listener: (context, state) => {
-            if (state is AuthError)
+            if (state is CourseError)
               {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: Text(
@@ -51,7 +49,7 @@ class RegisterCourseState extends State<RegisterCourse> {
                   ),
                 ))
               }
-            else if (state is Registered)
+            else if (state is RegisteredCourse)
               {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: const Text(
@@ -69,7 +67,8 @@ class RegisterCourseState extends State<RegisterCourse> {
               }
           },
           child: Center(
-            child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+            child:
+                BlocBuilder<CourseBloc, CourseState>(builder: (context, state) {
               return Column(
                 children: <Widget>[
                   Container(
@@ -150,7 +149,7 @@ class RegisterCourseState extends State<RegisterCourse> {
         return null;
       },
       onSaved: (String? value) {
-        disciplineData.code = value ?? "";
+        courseData.code = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Código',
@@ -178,7 +177,7 @@ class RegisterCourseState extends State<RegisterCourse> {
         return null;
       },
       onSaved: (String? value) {
-        disciplineData.description = value ?? "";
+        courseData.description = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Descrição',
@@ -215,37 +214,43 @@ class RegisterCourseState extends State<RegisterCourse> {
     );
   }
 
-  Widget registerButton(BuildContext buildContext, AuthState state) {
+  Widget registerButton(BuildContext buildContext, CourseState state) {
     Widget buttonChild = const Text(
       'Cadastrar',
       style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
     );
 
-    if (state is Loading) {
+    if (state is LoadingCourse) {
       if (state.load) {
         buttonChild = const CircularProgressIndicator();
       }
     }
 
-    return Expanded(
-      child: ElevatedButton(
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              formKey.currentState!.save();
-              // buildContext
-              //     .read<AuthBloc>()
-              //     .add(SignUpRequested(disciplineData.email, disciplineData.password));
-              // buildContext.read<UserBloc>().add(AddUserRequested(disciplineData));
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(double.infinity, 60),
-            backgroundColor: const Color(0xFF4157ff),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24.0),
+    return BlocBuilder<UserBloc, UserState>(builder: (context, userState) {
+      var userId = "";
+      if (userState is UserData) {
+        userId = userState.user.id;
+      }
+
+      return Expanded(
+        child: ElevatedButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
+                buildContext
+                    .read<CourseBloc>()
+                    .add(AddCourseRequested(courseData, userId));
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 60),
+              backgroundColor: const Color(0xFF4157ff),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0),
+              ),
             ),
-          ),
-          child: buttonChild),
-    );
+            child: buttonChild),
+      );
+    });
   }
 }

@@ -109,7 +109,7 @@ class HomeFrequency extends StatelessWidget {
       style: TextStyle(
           fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
     );
-    if (state is Loading) {
+    if (state is LoadingUser) {
       if (state.load) {
         child = CircularProgressIndicator();
       }

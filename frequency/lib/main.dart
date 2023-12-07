@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
+import 'package:frequency/bloc/course/course_bloc.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/data/auth_repository.dart';
 import 'package:frequency/data/firestore_repository.dart';
-import 'package:frequency/firebase_options.dart';
 import 'package:frequency/screens/about_app.dart';
 
 void main() async {
@@ -46,6 +46,11 @@ class Frequency extends StatelessWidget {
                 dbRepository:
                     RepositoryProvider.of<FirestoreRepository>(context)),
           ),
+          BlocProvider<CourseBloc>(
+            create: (context) => CourseBloc(
+                dbRepository:
+                    RepositoryProvider.of<FirestoreRepository>(context)),
+          ),
         ],
         child: MaterialApp(
           title: 'Frequency',
@@ -58,25 +63,6 @@ class Frequency extends StatelessWidget {
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return RepositoryProvider(
-  //     create: (context) => AuthRepository(),
-  //     child: BlocProvider(
-  //       create: (context) => AuthBloc(
-  //           authRepository: RepositoryProvider.of<AuthRepository>(context)),
-  //       child: MaterialApp(
-  //         title: 'Frequency',
-  //         theme: ThemeData(
-  //           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-  //           useMaterial3: true,
-  //         ),
-  //         home: const Home(title: 'Frequency'),
-  //       ),
-  //     ),
-  //   );
-  // }
 }
 
 class Home extends StatefulWidget {

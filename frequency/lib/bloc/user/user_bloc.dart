@@ -9,25 +9,25 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc({required this.dbRepository}) : super(UnAuthenticated()) {
     on<AddUserRequested>((event, state) async {
-      state(Loading(load: true));
+      state(LoadingUser(load: true));
       try {
         await dbRepository.addUser(userData: event.userData);
-        state(Registered());
-        state(Loading(load: false));
+        state(RegisteredUser());
+        state(LoadingUser(load: false));
       } catch (e) {
-        state(Loading(load: false));
+        state(LoadingUser(load: false));
         state(UserError(msg: e.toString()));
       }
     });
 
     on<GetUserRequested>((event, state) async {
-      state(Loading(load: true));
+      state(LoadingUser(load: true));
 
       try {
         UserDataModel user = await dbRepository.getUser(email: event.email);
         state(UserData(user: user));
       } catch (e) {
-        state(Loading(load: false));
+        state(LoadingUser(load: false));
         state(UserError(msg: e.toString()));
       }
     });

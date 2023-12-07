@@ -6,6 +6,7 @@ import 'package:frequency/bloc/auth/auth_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_event.dart';
 import 'package:frequency/model/firebase/course_data.dart';
+import 'package:frequency/model/firebase/discipline_data.dart';
 import 'package:frequency/screens/login.dart';
 
 class RegisterDiscipline extends StatefulWidget {
@@ -18,8 +19,14 @@ class RegisterDiscipline extends StatefulWidget {
 }
 
 class RegisterDisciplineState extends State<RegisterDiscipline> {
-  final CourseDataModel courseData =
-      CourseDataModel(code: "", description: "", user_email: "");
+  final DisciplineDataModel disciplineData = DisciplineDataModel(
+      code: "",
+      description: "",
+      user_email: "",
+      course_code: "",
+      initial_hour: "",
+      final_hour: "",
+      week_day: "");
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -152,7 +159,7 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
         return null;
       },
       onSaved: (String? value) {
-        courseData.code = value ?? "";
+        disciplineData.course_code = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Código do Curso',
@@ -180,7 +187,7 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
         return null;
       },
       onSaved: (String? value) {
-        courseData.code = value ?? "";
+        disciplineData.code = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Código',
@@ -208,7 +215,7 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
         return null;
       },
       onSaved: (String? value) {
-        courseData.description = value ?? "";
+        disciplineData.description = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Descrição',
@@ -236,7 +243,7 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
         return null;
       },
       onSaved: (String? value) {
-        courseData.code = value ?? "";
+        disciplineData.week_day = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Dia da Semana',
@@ -264,7 +271,7 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
         return null;
       },
       onSaved: (String? value) {
-        courseData.code = value ?? "";
+        disciplineData.initial_hour = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Hora de inicio da aula',
@@ -292,7 +299,7 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
         return null;
       },
       onSaved: (String? value) {
-        courseData.code = value ?? "";
+        disciplineData.final_hour = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Hora de fim da aula',
@@ -348,8 +355,8 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
               formKey.currentState!.save();
               // buildContext
               //     .read<AuthBloc>()
-              //     .add(SignUpRequested(courseData.email, courseData.password));
-              // buildContext.read<UserBloc>().add(AddUserRequested(courseData));
+              //     .add(SignUpRequested(disciplineData.email, disciplineData.password));
+              // buildContext.read<UserBloc>().add(AddUserRequested(disciplineData));
             }
           },
           style: ElevatedButton.styleFrom(
