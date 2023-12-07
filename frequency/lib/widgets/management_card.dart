@@ -7,6 +7,7 @@ import 'package:frequency/screens/disciplines.dart';
 import 'package:frequency/screens/login.dart';
 import 'package:frequency/screens/perfil.dart';
 import 'package:frequency/screens/register_course.dart';
+import 'package:frequency/screens/register_discipline.dart';
 import 'package:frequency/widgets/card_icon_button.dart';
 import 'package:frequency/widgets/deatch_icon_card_button.dart';
 
@@ -59,7 +60,7 @@ class ManagementCard extends StatelessWidget {
                     text: 'Disciplinas',
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const Disciplines()));
+                          builder: (_) => const RegisterDiscipline()));
                     }),
               ],
             ),

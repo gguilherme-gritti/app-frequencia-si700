@@ -5,27 +5,21 @@ import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_event.dart';
-import 'package:frequency/model/firebase/discipline_data.dart';
+import 'package:frequency/model/firebase/course_data.dart';
 import 'package:frequency/screens/login.dart';
 
-class RegisterCourse extends StatefulWidget {
-  const RegisterCourse({Key? key}) : super(key: key);
+class RegisterDiscipline extends StatefulWidget {
+  const RegisterDiscipline({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return RegisterCourseState();
+    return RegisterDisciplineState();
   }
 }
 
-class RegisterCourseState extends State<RegisterCourse> {
-  final DisciplineDataModel disciplineData = DisciplineDataModel(
-      code: "",
-      description: "",
-      user_email: "",
-      course_code: "",
-      final_hour: "",
-      initial_hour: "",
-      week_day: "");
+class RegisterDisciplineState extends State<RegisterDiscipline> {
+  final CourseDataModel courseData =
+      CourseDataModel(code: "", description: "", user_email: "");
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -55,7 +49,7 @@ class RegisterCourseState extends State<RegisterCourse> {
               {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: const Text(
-                    'Curso Cadastrado com sucesso!',
+                    'Disciplina Cadastrada com sucesso!',
                     style: TextStyle(color: Colors.white),
                   ),
                   backgroundColor: Colors.green,
@@ -78,13 +72,13 @@ class RegisterCourseState extends State<RegisterCourse> {
                     height: 100.0,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('lib/assets/img/course.png'),
+                        image: AssetImage('lib/assets/img/discipline.png'),
                         fit: BoxFit.fill,
                       ),
                     ),
                   ),
                   const Text(
-                    'Cadastro de Curso',
+                    'Cadastro de Disciplina',
                     style: TextStyle(
                         fontSize: 28,
                         color: Colors.white,
@@ -115,9 +109,17 @@ class RegisterCourseState extends State<RegisterCourse> {
                       child: Form(
                         key: formKey,
                         child: Column(children: [
+                          course(),
+                          const SizedBox(height: 15),
                           codeField(),
                           const SizedBox(height: 15),
                           descriptionField(),
+                          const SizedBox(height: 15),
+                          weekDay(),
+                          const SizedBox(height: 15),
+                          initialHour(),
+                          const SizedBox(height: 15),
+                          finalHour(),
                           const SizedBox(height: 15),
                           Row(
                             children: [
@@ -139,6 +141,34 @@ class RegisterCourseState extends State<RegisterCourse> {
     );
   }
 
+  Widget course() {
+    return TextFormField(
+      validator: (String? value) {
+        if (value != null) {
+          if (value.isEmpty) {
+            return "Insira um Curso Válido";
+          }
+        }
+        return null;
+      },
+      onSaved: (String? value) {
+        courseData.code = value ?? "";
+      },
+      decoration: const InputDecoration(
+          labelText: 'Código do Curso',
+          labelStyle: TextStyle(fontWeight: FontWeight.w600),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(color: Colors.black12)),
+          filled: true,
+          fillColor: Colors.white),
+    );
+  }
+
   Widget codeField() {
     return TextFormField(
       validator: (String? value) {
@@ -150,7 +180,7 @@ class RegisterCourseState extends State<RegisterCourse> {
         return null;
       },
       onSaved: (String? value) {
-        disciplineData.code = value ?? "";
+        courseData.code = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Código',
@@ -178,10 +208,94 @@ class RegisterCourseState extends State<RegisterCourse> {
         return null;
       },
       onSaved: (String? value) {
-        disciplineData.description = value ?? "";
+        courseData.description = value ?? "";
       },
       decoration: const InputDecoration(
           labelText: 'Descrição',
+          labelStyle: TextStyle(fontWeight: FontWeight.w600),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(color: Colors.black12)),
+          filled: true,
+          fillColor: Colors.white),
+    );
+  }
+
+  Widget weekDay() {
+    return TextFormField(
+      validator: (String? value) {
+        if (value != null) {
+          if (value.isEmpty) {
+            return "Insira um dia da semana Válido";
+          }
+        }
+        return null;
+      },
+      onSaved: (String? value) {
+        courseData.code = value ?? "";
+      },
+      decoration: const InputDecoration(
+          labelText: 'Dia da Semana',
+          labelStyle: TextStyle(fontWeight: FontWeight.w600),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(color: Colors.black12)),
+          filled: true,
+          fillColor: Colors.white),
+    );
+  }
+
+  Widget initialHour() {
+    return TextFormField(
+      validator: (String? value) {
+        if (value != null) {
+          if (value.isEmpty) {
+            return "Insira uma Hora Válida";
+          }
+        }
+        return null;
+      },
+      onSaved: (String? value) {
+        courseData.code = value ?? "";
+      },
+      decoration: const InputDecoration(
+          labelText: 'Hora de inicio da aula',
+          labelStyle: TextStyle(fontWeight: FontWeight.w600),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue, width: 2),
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderSide: BorderSide(color: Colors.black12)),
+          filled: true,
+          fillColor: Colors.white),
+    );
+  }
+
+  Widget finalHour() {
+    return TextFormField(
+      validator: (String? value) {
+        if (value != null) {
+          if (value.isEmpty) {
+            return "Insira uma Hora Válida";
+          }
+        }
+        return null;
+      },
+      onSaved: (String? value) {
+        courseData.code = value ?? "";
+      },
+      decoration: const InputDecoration(
+          labelText: 'Hora de fim da aula',
           labelStyle: TextStyle(fontWeight: FontWeight.w600),
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.blue, width: 2),
@@ -234,8 +348,8 @@ class RegisterCourseState extends State<RegisterCourse> {
               formKey.currentState!.save();
               // buildContext
               //     .read<AuthBloc>()
-              //     .add(SignUpRequested(disciplineData.email, disciplineData.password));
-              // buildContext.read<UserBloc>().add(AddUserRequested(disciplineData));
+              //     .add(SignUpRequested(courseData.email, courseData.password));
+              // buildContext.read<UserBloc>().add(AddUserRequested(courseData));
             }
           },
           style: ElevatedButton.styleFrom(
