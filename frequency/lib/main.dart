@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
 import 'package:frequency/bloc/course/course_bloc.dart';
+import 'package:frequency/bloc/discipline/discipline_bloc.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/data/auth_repository.dart';
 import 'package:frequency/data/firestore_repository.dart';
@@ -48,6 +49,11 @@ class Frequency extends StatelessWidget {
           ),
           BlocProvider<CourseBloc>(
             create: (context) => CourseBloc(
+                dbRepository:
+                    RepositoryProvider.of<FirestoreRepository>(context)),
+          ),
+          BlocProvider<DisciplineBloc>(
+            create: (context) => DisciplineBloc(
                 dbRepository:
                     RepositoryProvider.of<FirestoreRepository>(context)),
           ),

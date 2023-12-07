@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frequency/bloc/auth/auth_bloc.dart';
-import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
 import 'package:frequency/bloc/course/course_bloc.dart';
 import 'package:frequency/bloc/course/course_event.dart';
 import 'package:frequency/bloc/course/course_state.dart';
+import 'package:frequency/bloc/discipline/discipline_bloc.dart';
+import 'package:frequency/bloc/discipline/discipline_event.dart';
+import 'package:frequency/bloc/discipline/discipline_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
-import 'package:frequency/bloc/user/user_event.dart';
 import 'package:frequency/bloc/user/user_state.dart';
-import 'package:frequency/model/firebase/course_data.dart';
 import 'package:frequency/model/firebase/discipline_data.dart';
 import 'package:frequency/model/firebase/user_data.dart';
 import 'package:frequency/screens/login.dart';
@@ -48,7 +47,7 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
       code: "",
       description: "",
       user_email: "",
-      course_code: "",
+      course_id: "",
       initial_hour: "",
       final_hour: "",
       week_day: "");
@@ -60,15 +59,15 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
     return MaterialApp(
       home: Scaffold(
         backgroundColor: const Color(0xFF4157ff),
-        body: BlocListener<AuthBloc, AuthState>(
+        body: BlocListener<DisciplineBloc, DisciplineState>(
           listener: (context, state) => {
             if (state is AuthError)
               {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                    state.msg,
-                    style: const TextStyle(
-                        color: Colors.white, fontFamily: 'Poppins'),
+                  content: const Text(
+                    'Erro',
+                    style:
+                        TextStyle(color: Colors.white, fontFamily: 'Poppins'),
                   ),
                   backgroundColor: Colors.red,
                   action: SnackBarAction(
@@ -95,7 +94,8 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
               }
           },
           child: Center(
-            child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
+            child: BlocBuilder<DisciplineBloc, DisciplineState>(
+                builder: (context, state) {
               return Column(
                 children: <Widget>[
                   Container(
@@ -143,8 +143,12 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
                         child: Column(children: [
                           CourseDropdown(onCourseSelected:
                               (Map<String, dynamic>? selectedCourse) {
-                            // Faça algo com o curso selecionado, se necessário
-                            print("Curso selecionado: $selectedCourse");
+                            if (selectedCourse != null) {
+                              disciplineData.course_id = selectedCourse['id'];
+                              print("Curso selecionado: $selectedCourse");
+                            } else {
+                              print("Nenhum curso selecionado");
+                            }
                           }),
                           const SizedBox(height: 15),
                           codeField(),
@@ -174,34 +178,6 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget course() {
-    return TextFormField(
-      validator: (String? value) {
-        if (value != null) {
-          if (value.isEmpty) {
-            return "Insira um Curso Válido";
-          }
-        }
-        return null;
-      },
-      onSaved: (String? value) {
-        disciplineData.course_code = value ?? "";
-      },
-      decoration: const InputDecoration(
-          labelText: 'Código do Curso',
-          labelStyle: TextStyle(fontWeight: FontWeight.w600),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue, width: 2),
-            borderRadius: BorderRadius.all(Radius.circular(20)),
-          ),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
-              borderSide: BorderSide(color: Colors.black12)),
-          filled: true,
-          fillColor: Colors.white),
     );
   }
 
@@ -365,38 +341,43 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
     );
   }
 
-  Widget registerButton(BuildContext buildContext, AuthState state) {
+  Widget registerButton(BuildContext buildContext, DisciplineState state) {
     Widget buttonChild = const Text(
       'Cadastrar',
       style: TextStyle(fontSize: 16, fontFamily: 'Poppins'),
     );
 
-    if (state is Loading) {
+    if (state is LoadingDiscipline) {
       if (state.load) {
         buttonChild = const CircularProgressIndicator();
       }
     }
 
-    return Expanded(
-      child: ElevatedButton(
-          onPressed: () {
-            if (formKey.currentState!.validate()) {
-              formKey.currentState!.save();
-              // buildContext
-              //     .read<AuthBloc>()
-              //     .add(SignUpRequested(disciplineData.email, disciplineData.password));
-              // buildContext.read<UserBloc>().add(AddUserRequested(disciplineData));
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(double.infinity, 60),
-            backgroundColor: const Color(0xFF4157ff),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24.0),
+    return BlocBuilder<UserBloc, UserState>(builder: (context, userState) {
+      var userId = "";
+      if (userState is UserData) {
+        userId = userState.user.id;
+      }
+      return Expanded(
+        child: ElevatedButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                formKey.currentState!.save();
+                buildContext
+                    .read<DisciplineBloc>()
+                    .add(AddDisciplineRequested(disciplineData, userId));
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 60),
+              backgroundColor: const Color(0xFF4157ff),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0),
+              ),
             ),
-          ),
-          child: buttonChild),
-    );
+            child: buttonChild),
+      );
+    });
   }
 }
 

@@ -1,5 +1,5 @@
 class DisciplineDataModel {
-  String course_code;
+  String course_id;
   String code;
   String week_day;
   String initial_hour;
@@ -8,7 +8,7 @@ class DisciplineDataModel {
   String user_email;
 
   DisciplineDataModel({
-    required this.course_code,
+    required this.course_id,
     required this.code,
     required this.description,
     required this.week_day,

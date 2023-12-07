@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:frequency/model/firebase/course_data.dart';
+import 'package:frequency/model/firebase/discipline_data.dart';
 import 'package:frequency/model/firebase/user_data.dart';
 import 'package:frequency/model/register_user_data.dart';
 
@@ -86,6 +87,32 @@ class FirestoreRepository {
       }
 
       return coursesList;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<void> addDiscipline(
+      {required DisciplineDataModel disciplineData,
+      required String userId}) async {
+    try {
+      final discipline = <String, dynamic>{
+        "code": disciplineData.code,
+        "description": disciplineData.description,
+        "week_day": disciplineData.week_day,
+        "initial_hour": disciplineData.initial_hour,
+        "final_hour": disciplineData.final_hour
+      };
+
+      CollectionReference ref = _db
+          .collection('user')
+          .doc(userId)
+          .collection('course')
+          .doc(disciplineData.course_id)
+          .collection('discipline');
+
+      await ref.add(discipline).then((DocumentReference doc) =>
+          print('DocumentSnapshot added with ID: ${doc.id}'));
     } catch (e) {
       throw Exception(e);
     }
