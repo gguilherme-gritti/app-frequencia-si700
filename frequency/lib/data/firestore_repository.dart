@@ -31,12 +31,10 @@ class FirestoreRepository {
           await _db.collection("user").where('email', isEqualTo: email).get();
 
       if (users.docs.isNotEmpty) {
-        print('Usuário encontrado');
       } else {
         throw Exception('Dados do usuário não encontrado');
       }
 
-      print(users.docs.first.id);
       return UserDataModel.fromFirestore(users.docs.first);
     } catch (e) {
       throw Exception(e);
@@ -75,8 +73,6 @@ class FirestoreRepository {
         Map<String, dynamic>? data = course.data() as Map<String, dynamic>?;
 
         if (data != null) {
-          print('Dados do curso: $data');
-
           Map<String, dynamic> courseObject = {
             'id': course.id,
             'code': data['code'],
@@ -140,8 +136,6 @@ class FirestoreRepository {
         Map<String, dynamic>? data = discipline.data() as Map<String, dynamic>?;
 
         if (data != null) {
-          print('Dados da Disciplina: $data');
-
           Map<String, dynamic> disciplineObject = {
             'id': discipline.id,
             'code': data['code'],
@@ -236,6 +230,29 @@ class FirestoreRepository {
       }
 
       return disciplineObject;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> getTodayPresence(
+      {required String discipline_id,
+      required String date,
+      required String userId}) async {
+    try {
+      var presence = await _db
+          .collection("user")
+          .doc(userId)
+          .collection('frequency')
+          .where('discipline_id', isEqualTo: discipline_id)
+          .where('date', isEqualTo: date)
+          .get();
+
+      if (presence.docs.isNotEmpty) {
+        return true;
+      }
+
+      return false;
     } catch (e) {
       throw Exception(e);
     }

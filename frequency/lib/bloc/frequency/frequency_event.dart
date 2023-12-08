@@ -20,3 +20,11 @@ class GetFrequencysRequested extends FrequencyEvent {
 
   GetFrequencysRequested(this.userId, this.disciplineId);
 }
+
+class VerifyFrequencyTodayRequested extends FrequencyEvent {
+  final String userId;
+  final String disciplineId;
+  final String date;
+
+  VerifyFrequencyTodayRequested(this.userId, this.disciplineId, this.date);
+}

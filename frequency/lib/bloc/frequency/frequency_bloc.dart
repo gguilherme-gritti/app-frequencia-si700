@@ -20,6 +20,21 @@ class FrequencyBloc extends Bloc<FrequencyEvent, FrequencyState> {
       }
     });
 
+    on<VerifyFrequencyTodayRequested>((event, state) async {
+      state(LoadingFrequency(load: true));
+      try {
+        bool has = await dbRepository.getTodayPresence(
+            discipline_id: event.disciplineId,
+            userId: event.userId,
+            date: event.date);
+        state(LoadingFrequency(load: false));
+        state(HasFrequencyToday(has: has));
+      } catch (e) {
+        state(LoadingFrequency(load: false));
+        state(FrequencyError(msg: e.toString()));
+      }
+    });
+
     // on<GetFrequencysRequested>((event, state) async {
     //   state(LoadingFrequency(load: true));
     //   try {

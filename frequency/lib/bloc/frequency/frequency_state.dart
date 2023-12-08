@@ -35,3 +35,11 @@ class FrequencysList extends FrequencyState {
 
   List<Object> get props => [frequencies];
 }
+
+class HasFrequencyToday extends FrequencyState {
+  final bool has;
+
+  HasFrequencyToday({required this.has});
+
+  List<Object> get props => [has];
+}

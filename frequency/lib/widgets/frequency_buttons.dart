@@ -1,24 +1,78 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frequency/bloc/course/course_bloc.dart';
+import 'package:frequency/bloc/course/course_event.dart';
 import 'package:frequency/bloc/frequency/frequency_bloc.dart';
 import 'package:frequency/bloc/frequency/frequency_event.dart';
+import 'package:frequency/bloc/frequency/frequency_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_state.dart';
 import 'package:frequency/model/firebase/frequency_data.dart';
+import 'package:frequency/model/firebase/user_data.dart';
 
-class FrequencyButtons extends StatelessWidget {
-  final bool isPressed = false;
+class FrequencyButtons extends StatefulWidget {
   final discipline;
 
-  const FrequencyButtons({required this.discipline});
+  const FrequencyButtons({Key? key, required this.discipline})
+      : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() {
+    return FrequencyButtonsState();
+  }
+}
+
+class FrequencyButtonsState extends State<FrequencyButtons> {
+  late UserBloc userBloc;
+
+  late FrequencyBloc frequencyBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    userBloc = BlocProvider.of<UserBloc>(context);
+    UserState currentState = userBloc.state;
+
+    if (currentState is UserData) {
+      UserDataModel userData = currentState.user;
+
+      frequencyBloc = BlocProvider.of<FrequencyBloc>(context);
+
+      DateTime now = DateTime.now();
+      String formattedDate =
+          "${now.day.toString().padLeft(2, '0')}-${now.month.toString().padLeft(2, '0')}-${now.year}";
+
+      frequencyBloc.add(VerifyFrequencyTodayRequested(
+          userData.id, widget.discipline['id'], formattedDate));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<FrequencyBloc, FrequencyState>(
+        builder: (context, state) {
+      var child = defaultChild();
+
+      if (state is LoadingFrequency) {
+        child = const CircularProgressIndicator();
+      } else if (state is HasFrequencyToday) {
+        if (state.has == true) {
+          child = hasPresence();
+        }
+      }
+
+      return child;
+    });
+  }
+
+  Widget defaultChild() {
     return BlocBuilder<UserBloc, UserState>(builder: (context, userState) {
       var userId = "";
       if (userState is UserData) {
         userId = userState.user.id;
       }
+
       return Row(
         children: [
           Expanded(
@@ -30,7 +84,7 @@ class FrequencyButtons extends StatelessWidget {
                 context.read<FrequencyBloc>().add(AddFrequencyRequested(
                     FrequencyDataModel(
                         date: formattedDate,
-                        discipline_id: discipline['id'],
+                        discipline_id: widget.discipline['id'],
                         presence: true),
                     userId));
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -41,17 +95,7 @@ class FrequencyButtons extends StatelessWidget {
                   backgroundColor: Colors.green,
                   action: SnackBarAction(
                     label: 'Fechar',
-                    onPressed: () {
-                      DateTime now = DateTime.now();
-                      String formattedDate =
-                          "${now.day.toString().padLeft(2, '0')}-${now.month.toString().padLeft(2, '0')}-${now.year}";
-                      context.read<FrequencyBloc>().add(AddFrequencyRequested(
-                          FrequencyDataModel(
-                              date: formattedDate,
-                              discipline_id: discipline['id'],
-                              presence: false),
-                          userId));
-                    },
+                    onPressed: () {},
                   ),
                 ));
               },
@@ -79,7 +123,7 @@ class FrequencyButtons extends StatelessWidget {
                 context.read<FrequencyBloc>().add(AddFrequencyRequested(
                     FrequencyDataModel(
                         date: formattedDate,
-                        discipline_id: discipline['id'],
+                        discipline_id: widget.discipline['id'],
                         presence: true),
                     userId));
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -90,17 +134,7 @@ class FrequencyButtons extends StatelessWidget {
                   backgroundColor: Colors.green,
                   action: SnackBarAction(
                     label: 'Fechar',
-                    onPressed: () {
-                      DateTime now = DateTime.now();
-                      String formattedDate =
-                          "${now.day.toString().padLeft(2, '0')}-${now.month.toString().padLeft(2, '0')}-${now.year}";
-                      context.read<FrequencyBloc>().add(AddFrequencyRequested(
-                          FrequencyDataModel(
-                              date: formattedDate,
-                              discipline_id: discipline['id'],
-                              presence: false),
-                          userId));
-                    },
+                    onPressed: () {},
                   ),
                 ));
               },
@@ -120,5 +154,13 @@ class FrequencyButtons extends StatelessWidget {
         ],
       );
     });
+  }
+
+  Widget hasPresence() {
+    return const Text(
+      'Você ja marcou presença hoje.',
+      style: TextStyle(
+          fontSize: 14, fontFamily: 'Poppins', color: Color(0xFF4157ff)),
+    );
   }
 }
