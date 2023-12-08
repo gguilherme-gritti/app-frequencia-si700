@@ -36,6 +36,9 @@ class Perfil extends StatelessWidget {
                         const SizedBox(height: 20),
                         email(state),
                         const SizedBox(height: 30),
+                        ra(state),
+                        const SizedBox(height: 30),
+
                         // Container(
                         //   decoration: BoxDecoration(
                         //       color: const Color.fromRGBO(160, 132, 232, 1),
@@ -121,6 +124,29 @@ class Perfil extends StatelessWidget {
 
       child = Text(
         email,
+        style: const TextStyle(fontSize: 20.0, fontFamily: 'Poppins'),
+        textAlign: TextAlign.center,
+      );
+    }
+
+    return child;
+  }
+
+  Widget ra(UserState state) {
+    Widget child = const Text(
+      '',
+      style: TextStyle(fontSize: 20.0, fontFamily: 'Poppins'),
+      textAlign: TextAlign.center,
+    );
+    if (state is LoadingUser) {
+      if (state.load) {
+        child = const CircularProgressIndicator();
+      }
+    } else if (state is UserData) {
+      final ra = state.user.ra;
+
+      child = Text(
+        ra,
         style: const TextStyle(fontSize: 20.0, fontFamily: 'Poppins'),
         textAlign: TextAlign.center,
       );

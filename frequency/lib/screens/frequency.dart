@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frequency/screens/home_frequency.dart';
-import 'package:frequency/screens/register_course.dart';
-import 'package:frequency/screens/register_discipline.dart';
-import 'package:frequency/widgets/courses_list_view.dart';
-import 'package:frequency/widgets/disciplines_list.dart';
 import 'package:frequency/widgets/frequency_list_view.dart';
 
 class FrequencyDash extends StatelessWidget {
@@ -19,7 +15,7 @@ class FrequencyDash extends StatelessWidget {
             children: <Widget>[
               const SizedBox(height: 30),
               const Icon(
-                Icons.add_card,
+                Icons.calendar_month,
                 color: Colors.white,
                 size: 50,
               ),
