@@ -62,6 +62,10 @@ class PresenceTodayCardState extends State<PresenceTodayCard> {
   }
 
   Widget hasFrequency(todayFrequency) {
+    var description = todayFrequency['description'];
+    var init = todayFrequency['initial_hour'];
+    var finalhour = todayFrequency['final_hour'];
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(7),
@@ -96,9 +100,9 @@ class PresenceTodayCardState extends State<PresenceTodayCard> {
         ),
         Container(
           padding: const EdgeInsets.all(5),
-          child: TextDivider(text: todayFrequency['description']),
+          child: TextDivider(text: '$description, $init h - $finalhour h'),
         ),
-        const FrequencyButtons(),
+        FrequencyButtons(discipline: todayFrequency),
       ]),
     );
   }
