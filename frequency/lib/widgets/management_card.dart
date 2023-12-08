@@ -3,16 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
 import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
-import 'package:frequency/main.dart';
 import 'package:frequency/screens/courses.dart';
 import 'package:frequency/screens/disciplines.dart';
 import 'package:frequency/screens/frequency.dart';
 import 'package:frequency/screens/login.dart';
 import 'package:frequency/screens/perfil.dart';
-import 'package:frequency/screens/register_course.dart';
-import 'package:frequency/screens/register_discipline.dart';
 import 'package:frequency/widgets/card_icon_button.dart';
-import 'package:frequency/widgets/courses_list_view.dart';
 import 'package:frequency/widgets/deatch_icon_card_button.dart';
 
 class ManagementCard extends StatelessWidget {
@@ -100,13 +96,13 @@ class ManagementCard extends StatelessWidget {
             ),
             Row(
               children: [
-                DetachIconCardButton(
-                    icon: Icons.calculate,
-                    text: 'Percentual',
-                    onPressed: () {}),
-                const SizedBox(
-                  width: 15,
-                ),
+                // DetachIconCardButton(
+                //     icon: Icons.calculate,
+                //     text: 'Percentual',
+                //     onPressed: () {}),
+                // const SizedBox(
+                //   width: 15,
+                // ),
                 DetachIconCardButton(
                     icon: Icons.offline_share,
                     text: 'Sair',

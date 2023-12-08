@@ -395,7 +395,7 @@ class CourseDropdown extends StatefulWidget {
 
 class _CourseDropdownState extends State<CourseDropdown> {
   List<Map<String, dynamic>> items = [
-    {'id': '', 'code': ''},
+    {'id': '', 'code': 'Nenhum Curso Cadastrado ainda'},
   ];
 
   Map<String, dynamic>? selectedOption;
