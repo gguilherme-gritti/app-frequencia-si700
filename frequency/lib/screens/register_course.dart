@@ -8,6 +8,7 @@ import 'package:frequency/bloc/course/course_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_state.dart';
 import 'package:frequency/model/firebase/course_data.dart';
+import 'package:frequency/screens/courses.dart';
 import 'package:frequency/screens/home_frequency.dart';
 import 'package:frequency/screens/login.dart';
 
@@ -241,8 +242,8 @@ class RegisterCourseState extends State<RegisterCourse> {
                 buildContext
                     .read<CourseBloc>()
                     .add(AddCourseRequested(courseData, userId));
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const HomeFrequency()));
+                // Navigator.of(context)
+                //     .push(MaterialPageRoute(builder: (_) => const Courses()));
               }
             },
             style: ElevatedButton.styleFrom(
