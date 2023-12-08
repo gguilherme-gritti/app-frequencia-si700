@@ -32,5 +32,18 @@ class DisciplineBloc extends Bloc<DisciplineEvent, DisciplineState> {
         state(DisciplineError(msg: e.toString()));
       }
     });
+
+    on<GetTodayFrequencyRequested>((event, state) async {
+      state(LoadingDiscipline(load: true));
+      try {
+        var todayDisciplines =
+            await dbRepository.getTodayDiscipline(userId: event.userId);
+        state(LoadingDiscipline(load: false));
+        state(TodaysDiscipline(todaysFrequencies: todayDisciplines));
+      } catch (e) {
+        state(LoadingDiscipline(load: false));
+        state(DisciplineError(msg: e.toString()));
+      }
+    });
   }
 }

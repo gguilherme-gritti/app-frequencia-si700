@@ -35,3 +35,11 @@ class DisciplinesList extends DisciplineState {
 
   List<Object> get props => [disciplines];
 }
+
+class TodaysDiscipline extends DisciplineState {
+  final todaysFrequencies;
+
+  TodaysDiscipline({required this.todaysFrequencies});
+
+  List<Object> get props => [todaysFrequencies];
+}

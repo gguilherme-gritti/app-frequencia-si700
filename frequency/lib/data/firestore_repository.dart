@@ -4,6 +4,7 @@ import 'package:frequency/model/firebase/discipline_data.dart';
 import 'package:frequency/model/firebase/frequency_data.dart';
 import 'package:frequency/model/firebase/user_data.dart';
 import 'package:frequency/model/register_user_data.dart';
+import 'package:intl/intl.dart';
 
 class FirestoreRepository {
   final _db = FirebaseFirestore.instance;
@@ -177,6 +178,64 @@ class FirestoreRepository {
 
       await ref.add(frequency).then((DocumentReference doc) =>
           print('DocumentSnapshot added with ID: ${doc.id}'));
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future getTodayDiscipline({required String userId}) async {
+    try {
+      DateTime now = DateTime.now();
+
+      String formattedWeekDay =
+          DateFormat.E('pt_BR').format(now).substring(0, 3).toLowerCase();
+
+      var disciplinesQuery =
+          await _db.collection('user').doc(userId).collection('course').get();
+
+      List<QueryDocumentSnapshot> allDisciplines = [];
+      print('wheek');
+      print(formattedWeekDay);
+
+      for (var courseDoc in disciplinesQuery.docs) {
+        var courseId = courseDoc.id;
+
+        var disciplineQuery = await _db
+            .collection('user')
+            .doc(userId)
+            .collection('course')
+            .doc(courseId)
+            .collection('discipline')
+            .where('week_day', isEqualTo: formattedWeekDay)
+            .get();
+
+        allDisciplines.addAll(disciplineQuery.docs);
+      }
+
+      List<Map<String, dynamic>> disciplinesList = [];
+
+      if (allDisciplines.isEmpty) {
+        print("empty");
+        throw Exception('Nenhuma aula encontrada para hoje');
+      }
+
+      Map<String, dynamic>? data =
+          allDisciplines.first.data() as Map<String, dynamic>?;
+
+      Map<String, dynamic> disciplineObject = {};
+
+      if (data != null) {
+        disciplineObject = {
+          'id': allDisciplines.first.id,
+          'code': data['code'],
+          'week_day': data['week_day'],
+          'initial_hour': data['initial_hour'],
+          'final_hour': data['final_hour'],
+          'description': data['description']
+        };
+      }
+
+      return disciplineObject;
     } catch (e) {
       throw Exception(e);
     }

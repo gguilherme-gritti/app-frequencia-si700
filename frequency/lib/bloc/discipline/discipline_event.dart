@@ -19,3 +19,9 @@ class GetDisciplinesRequested extends DisciplineEvent {
 
   GetDisciplinesRequested(this.userId, this.courseId);
 }
+
+class GetTodayFrequencyRequested extends DisciplineEvent {
+  final String userId;
+
+  GetTodayFrequencyRequested(this.userId);
+}
