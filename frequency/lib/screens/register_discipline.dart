@@ -11,6 +11,7 @@ import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_state.dart';
 import 'package:frequency/model/firebase/discipline_data.dart';
 import 'package:frequency/model/firebase/user_data.dart';
+import 'package:frequency/screens/home_frequency.dart';
 import 'package:frequency/screens/login.dart';
 
 class RegisterDiscipline extends StatefulWidget {
@@ -365,6 +366,8 @@ class RegisterDisciplineState extends State<RegisterDiscipline> {
                 buildContext
                     .read<DisciplineBloc>()
                     .add(AddDisciplineRequested(disciplineData, userId));
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const HomeFrequency()));
               }
             },
             style: ElevatedButton.styleFrom(

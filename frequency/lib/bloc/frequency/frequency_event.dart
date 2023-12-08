@@ -16,9 +16,8 @@ class AddFrequencyRequested extends FrequencyEvent {
 
 class GetFrequencysRequested extends FrequencyEvent {
   final String userId;
-  final String disciplineId;
 
-  GetFrequencysRequested(this.userId, this.disciplineId);
+  GetFrequencysRequested(this.userId);
 }
 
 class VerifyFrequencyTodayRequested extends FrequencyEvent {

@@ -87,6 +87,8 @@ class FrequencyButtonsState extends State<FrequencyButtons> {
                         discipline_id: widget.discipline['id'],
                         presence: true),
                     userId));
+                frequencyBloc.add(VerifyFrequencyTodayRequested(
+                    userId, widget.discipline['id'], formattedDate));
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: const Text(
                     'Falta computada com sucesso',
@@ -126,6 +128,8 @@ class FrequencyButtonsState extends State<FrequencyButtons> {
                         discipline_id: widget.discipline['id'],
                         presence: true),
                     userId));
+                frequencyBloc.add(VerifyFrequencyTodayRequested(
+                    userId, widget.discipline['id'], formattedDate));
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   content: const Text(
                     'Presença computada com sucesso',

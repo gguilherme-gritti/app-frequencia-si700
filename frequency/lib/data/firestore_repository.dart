@@ -188,8 +188,6 @@ class FirestoreRepository {
           await _db.collection('user').doc(userId).collection('course').get();
 
       List<QueryDocumentSnapshot> allDisciplines = [];
-      print('wheek');
-      print(formattedWeekDay);
 
       for (var courseDoc in disciplinesQuery.docs) {
         var courseId = courseDoc.id;
@@ -209,7 +207,6 @@ class FirestoreRepository {
       List<Map<String, dynamic>> disciplinesList = [];
 
       if (allDisciplines.isEmpty) {
-        print("empty");
         throw Exception('Nenhuma aula encontrada para hoje');
       }
 
@@ -253,6 +250,42 @@ class FirestoreRepository {
       }
 
       return false;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> getFrequencies(
+      {required String userId}) async {
+    try {
+      var frequenciesQuery = await _db
+          .collection('user')
+          .doc(userId)
+          .collection('frequency')
+          .get();
+
+      List<DocumentSnapshot> frequencies = frequenciesQuery.docs;
+
+      List<Map<String, dynamic>> frequenciesList = [];
+
+      for (var frequency in frequencies) {
+        Map<String, dynamic>? data = frequency.data() as Map<String, dynamic>?;
+
+        if (data != null) {
+          Map<String, dynamic> frequencyObject = {
+            'id': frequency.id,
+            'date': data['date'],
+            'presence': data['presence'],
+            'discipline_id': data['discipline_id'],
+          };
+
+          frequenciesList.add(frequencyObject);
+        } else {
+          print('Dados do curso estão vazios ou nulos.');
+        }
+      }
+
+      return frequenciesList;
     } catch (e) {
       throw Exception(e);
     }

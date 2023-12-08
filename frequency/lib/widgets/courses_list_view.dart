@@ -3,9 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/course/course_bloc.dart';
 import 'package:frequency/bloc/course/course_event.dart';
 import 'package:frequency/bloc/course/course_state.dart';
-import 'package:frequency/bloc/discipline/discipline_bloc.dart';
-import 'package:frequency/bloc/discipline/discipline_event.dart';
-import 'package:frequency/bloc/discipline/discipline_state.dart';
 import 'package:frequency/bloc/user/user_bloc.dart';
 import 'package:frequency/bloc/user/user_state.dart';
 import 'package:frequency/model/firebase/user_data.dart';
@@ -52,7 +49,6 @@ class CoursesListState extends State<CoursesListView> {
       builder: (context, state) {
         if (state is CoursesList) {
           List<Map<String, dynamic>> itemList = state.courses;
-          print(itemList[0]);
           return Column(
             children: itemList.map((item) => ListItem(data: item)).toList(),
           );

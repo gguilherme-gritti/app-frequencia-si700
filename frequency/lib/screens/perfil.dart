@@ -36,15 +36,15 @@ class Perfil extends StatelessWidget {
                         const SizedBox(height: 20),
                         email(state),
                         const SizedBox(height: 30),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: const Color.fromRGBO(160, 132, 232, 1),
-                              borderRadius: BorderRadius.circular(14)),
-                          child: const SingleChildScrollView(
-                            child: BulletList(strings: []),
-                          ),
-                        ),
-                        const SizedBox(height: 30),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //       color: const Color.fromRGBO(160, 132, 232, 1),
+                        //       borderRadius: BorderRadius.circular(14)),
+                        //   child: const SingleChildScrollView(
+                        //     child: BulletList(strings: []),
+                        //   ),
+                        // ),
+                        // const SizedBox(height: 30),
                         back(context)
                       ],
                     )),

@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frequency/bloc/auth/auth_bloc.dart';
 import 'package:frequency/bloc/auth/auth_event.dart';
 import 'package:frequency/bloc/auth/auth_state.dart';
+import 'package:frequency/main.dart';
 import 'package:frequency/screens/courses.dart';
 import 'package:frequency/screens/disciplines.dart';
+import 'package:frequency/screens/frequency.dart';
 import 'package:frequency/screens/login.dart';
 import 'package:frequency/screens/perfil.dart';
 import 'package:frequency/screens/register_course.dart';
@@ -53,7 +55,10 @@ class ManagementCard extends StatelessWidget {
                 CardIconButton(
                     icon: Icons.calendar_month,
                     text: 'Frequência',
-                    onPressed: () {}),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const FrequencyDash()));
+                    }),
                 const SizedBox(
                   width: 15,
                 ),

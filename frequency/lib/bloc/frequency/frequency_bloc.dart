@@ -35,17 +35,18 @@ class FrequencyBloc extends Bloc<FrequencyEvent, FrequencyState> {
       }
     });
 
-    // on<GetFrequencysRequested>((event, state) async {
-    //   state(LoadingFrequency(load: true));
-    //   try {
-    //     var disciplines = await dbRepository.getFrequencys(
-    //         userId: event.userId, frequencyId: event.frequencyId);
-    //     state(LoadingFrequency(load: false));
-    //     state(FrequencysList(disciplines: disciplines));
-    //   } catch (e) {
-    //     state(LoadingFrequency(load: false));
-    //     state(FrequencyError(msg: e.toString()));
-    //   }
-    // });
+    on<GetFrequencysRequested>((event, state) async {
+      state(LoadingFrequency(load: true));
+      try {
+        var frequencies = await dbRepository.getFrequencies(
+          userId: event.userId,
+        );
+        state(LoadingFrequency(load: false));
+        state(FrequencysList(frequencies: frequencies));
+      } catch (e) {
+        state(LoadingFrequency(load: false));
+        state(FrequencyError(msg: e.toString()));
+      }
+    });
   }
 }
